@@ -48,44 +48,6 @@
         }
 
         /* ═══════════════════════════════════════
-           INTERACTIVE LAYER 2 — CUSTOM CURSOR
-           ═══════════════════════════════════════ */
-        @media (hover: hover) and (pointer: fine) {
-            *, *::before, *::after { cursor: none !important; }
-        }
-
-        #cur-dot {
-            position: fixed; z-index: 99997;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--emerald);
-            box-shadow: 0 0 10px rgba(52,160,106,0.6), 0 0 24px rgba(52,160,106,0.3);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s, box-shadow 0.2s, opacity 0.2s;
-            opacity: 0;
-        }
-        #cur-ring {
-            position: fixed; z-index: 99996;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            border: 1px solid rgba(52,160,106,0.5);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        border-color 0.3s, opacity 0.2s;
-            opacity: 0;
-        }
-        #cur-dot.active { width: 6px; height: 6px; }
-        #cur-ring.active { width: 48px; height: 48px; border-color: rgba(52,160,106,0.8); }
-        #cur-dot.on-cta { background: var(--gold-light); box-shadow: 0 0 10px rgba(224,176,69,0.6); }
-        #cur-ring.on-cta { border-color: rgba(224,176,69,0.7); }
-        @media (hover: none), (pointer: coarse) {
-            #cur-dot, #cur-ring { display: none; }
-        }
-
-        /* ═══════════════════════════════════════
            INTERACTIVE LAYER 7 — KONAMI OVERLAY
            ═══════════════════════════════════════ */
         #konami-overlay {
