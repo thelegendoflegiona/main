@@ -2,79 +2,77 @@ const events = [
   {
     title: "Genesis Era",
     date: "Dec 2021",
-    description: "The Legend of Legiona was created.",
-    type: "discovery",
-    characters: ["Founder"]
+    description: "The world of Legiona is born.",
+    type: "discovery"
   },
   {
-    title: "Exploration Age",
+    title: "Ender Dragon War",
     date: "Feb 2023",
-    description: "Ender Dragon defeated after heavy losses.",
-    type: "war",
-    characters: ["Faiz", "Dyno"]
+    description: "First major battle. Heavy losses, but victory achieved.",
+    type: "war"
   },
   {
-    title: "Rise of Civilization",
+    title: "Rise of TheLoL",
     date: "Mar 2023",
-    description: "Base construction and farms begin.",
-    type: "politics",
-    characters: ["Faiz", "Ikan"]
+    description: "Civilization begins. Base construction starts.",
+    type: "politics"
   },
   {
-    title: "Expansion",
-    date: "Mar 2023",
-    description: "New members join. Identity confusion begins.",
-    type: "politics",
-    characters: ["Ikan", "Iman"]
-  },
-  {
-    title: "Political Conflict",
+    title: "PPTL Formation",
     date: "May 2023",
-    description: "PPTL faction forms. Power struggle begins.",
-    type: "politics",
-    characters: ["Faiz", "Dyno", "Ultra"]
+    description: "A secret faction emerges: the traitors.",
+    type: "betrayal"
   },
   {
-    title: "Sabotage Arc",
+    title: "Sabotage Operations",
     date: "May 2023",
-    description: "Secret griefing and hidden operations.",
-    type: "betrayal",
-    characters: ["Faiz", "Ikan"]
+    description: "Griefing, deception, and hidden warfare.",
+    type: "betrayal"
   },
   {
-    title: "Dark Experiments",
+    title: "Warden Experiment",
     date: "May 2023",
-    description: "Warden weaponization and sculk infection plans.",
-    type: "war",
-    characters: ["Dyno"]
+    description: "Biological warfare begins with Warden weaponization.",
+    type: "war"
   }
 ];
 
 const timeline = document.getElementById("timeline");
 
-events.forEach(event => {
-  const div = document.createElement("div");
-  div.classList.add("event", event.type);
+function render(eventsList) {
+  timeline.innerHTML = "";
 
-  div.innerHTML = `
-    <h2>${event.title}</h2>
-    <div class="date">${event.date}</div>
-    <div class="description">${event.description}</div>
-    <div class="characters">
-      ${event.characters.map(c => `<span class="character">${c}</span>`).join("")}
-    </div>
-  `;
+  eventsList.forEach(e => {
+    const div = document.createElement("div");
+    div.className = `event ${e.type}`;
 
-  timeline.appendChild(div);
-});
+    div.innerHTML = `
+      <h3>${e.title}</h3>
+      <div class="date">${e.date}</div>
+      <p>${e.description.substring(0, 60)}...</p>
+    `;
 
-// Scroll animation
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-    }
+    div.onclick = () => openModal(e);
+
+    timeline.appendChild(div);
   });
-});
+}
 
-document.querySelectorAll(".event").forEach(el => observer.observe(el));
+function openModal(e) {
+  document.getElementById("modal").style.display = "block";
+  document.getElementById("modal-title").innerText = e.title;
+  document.getElementById("modal-date").innerText = e.date;
+  document.getElementById("modal-desc").innerText = e.description;
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function filterEvents(type) {
+  if (type === "all") return render(events);
+  render(events.filter(e => e.type === type));
+}
+
+// initial render
+render(events);
