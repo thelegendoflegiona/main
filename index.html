@@ -2,15 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>The LoL Timeline</title>
+  <title>The LoL Lore Timeline</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1 class="title">The Legend of Legiona Timeline</h1>
+<header>
+  <h1>The Legend of Legiona</h1>
 
-  <div class="timeline" id="timeline"></div>
+  <div class="filters">
+    <button onclick="filterEvents('all')">All</button>
+    <button onclick="filterEvents('war')">War</button>
+    <button onclick="filterEvents('politics')">Politics</button>
+    <button onclick="filterEvents('betrayal')">Betrayal</button>
+  </div>
+</header>
 
-  <script src="script.js"></script>
+<div class="timeline" id="timeline"></div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-date"></p>
+    <p id="modal-desc"></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
