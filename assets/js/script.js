@@ -2,468 +2,368 @@
    THE LEGEND OF LEGIONA — MAIN SITE SCRIPT
    /main/assets/js/script.js
    ═══════════════════════════════════════════════════ */
-
-(function () {
-    'use strict';
-
-    /* ── 1. SCROLL PROGRESS BAR ─────────────────────── */
-    const scrollBar = document.getElementById('scroll-progress');
-    function updateScrollProgress() {
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 1 — SCROLL PROGRESS BAR
+    // ════════════════════════════════════════════════════════════════
+    const progressBar = document.getElementById('scroll-progress');
+    function updateProgress() {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-        if (scrollBar) scrollBar.style.transform = `scaleX(${progress})`;
+        const pct = docHeight > 0 ? scrollTop / docHeight : 0;
+        progressBar.style.transform = `scaleX(${pct})`;
     }
 
-    /* ── 2. CUSTOM CURSOR ───────────────────────────── */
-    const curDot  = document.getElementById('cur-dot');
-    const curRing = document.getElementById('cur-ring');
-    let mouseX = 0, mouseY = 0;
-    let ringX  = 0, ringY  = 0;
-    let cursorVisible = false;
-
-    function animateCursor() {
-        ringX += (mouseX - ringX) * 0.14;
-        ringY += (mouseY - ringY) * 0.14;
-        if (curDot)  { curDot.style.left  = mouseX + 'px'; curDot.style.top  = mouseY + 'px'; }
-        if (curRing) { curRing.style.left = ringX  + 'px'; curRing.style.top = ringY  + 'px'; }
-        requestAnimationFrame(animateCursor);
-    }
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX; mouseY = e.clientY;
-        if (!cursorVisible) {
-            cursorVisible = true;
-            if (curDot)  { curDot.style.opacity  = '1'; }
-            if (curRing) { curRing.style.opacity = '1'; }
-        }
-    });
-
-    document.addEventListener('mouseleave', () => {
-        if (curDot)  curDot.style.opacity  = '0';
-        if (curRing) curRing.style.opacity = '0';
-        cursorVisible = false;
-    });
-
-    // Hover states
-    document.querySelectorAll('a, button, [role="button"]').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (curDot)  curDot.classList.add('active');
-            if (curRing) curRing.classList.add('active');
-            const isCta = el.classList.contains('btn-primary') || el.classList.contains('nav-cta');
-            if (isCta) {
-                if (curDot)  curDot.classList.add('on-cta');
-                if (curRing) curRing.classList.add('on-cta');
-            }
-        });
-        el.addEventListener('mouseleave', () => {
-            if (curDot)  { curDot.classList.remove('active', 'on-cta'); }
-            if (curRing) { curRing.classList.remove('active', 'on-cta'); }
-        });
-    });
-
-    animateCursor();
-
-    /* ── 3. NETWORK BAR + SITENAV SCROLL BEHAVIOUR ──── */
-    const netbar  = document.getElementById('netbar');
+    // ════════════════════════════════════════════════════════════════
+    //  NAV
+    // ════════════════════════════════════════════════════════════════
     const sitenav = document.getElementById('sitenav');
-    let lastScrollY = 0;
-    let netbarHidden = false;
+    const netbar  = document.getElementById('netbar');
+    const NETBAR_H = 32;
 
-    function handleScroll() {
-        const scrollY = window.scrollY;
-        updateScrollProgress();
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        sitenav.classList.toggle('scrolled', y > 60);
+        if (y > NETBAR_H) { netbar.classList.add('hidden'); sitenav.classList.add('nb-hidden'); }
+        else { netbar.classList.remove('hidden'); sitenav.classList.remove('nb-hidden'); }
+        updateProgress();
+    }, { passive: true });
 
-        // Sitenav glass effect
-        if (sitenav) sitenav.classList.toggle('scrolled', scrollY > 40);
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        hamburger.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', open);
+    });
+    function closeMobile() {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+    }
+    document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobile();
+    });
 
-        // Hide netbar on scroll down, show on scroll up
-        if (netbar) {
-            if (scrollY > lastScrollY && scrollY > 80 && !netbarHidden) {
-                netbar.classList.add('hidden');
-                if (sitenav) sitenav.classList.add('nb-hidden');
-                netbarHidden = true;
-            } else if (scrollY < lastScrollY && netbarHidden) {
-                netbar.classList.remove('hidden');
-                if (sitenav) sitenav.classList.remove('nb-hidden');
-                netbarHidden = false;
+    // ════════════════════════════════════════════════════════════════
+    //  REVEAL OBSERVER
+    // ════════════════════════════════════════════════════════════════
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('in'), i * 80);
+                observer.unobserve(entry.target);
             }
+        });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 2 — CUSTOM CURSOR (desktop only)
+    // ════════════════════════════════════════════════════════════════
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (isDesktop) {
+        const dot  = document.getElementById('cur-dot');
+        const ring = document.getElementById('cur-ring');
+        let mx = -100, my = -100, rx = -100, ry = -100;
+        let raf;
+
+        document.addEventListener('mousemove', (e) => {
+            mx = e.clientX; my = e.clientY;
+            dot.style.left = mx + 'px';
+            dot.style.top  = my + 'px';
+            dot.style.opacity = '1';
+            ring.style.opacity = '0.8';
+            if (!raf) raf = requestAnimationFrame(animRing);
+        });
+
+        function animRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top  = ry + 'px';
+            raf = requestAnimationFrame(animRing);
         }
-        lastScrollY = scrollY;
+
+        // Hover states
+        const interactiveEls = 'a, button, .tilt-card, input, textarea, [role="button"]';
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest(interactiveEls)) {
+                dot.classList.add('active'); ring.classList.add('active');
+                const isCta = e.target.closest('.btn-primary, .nav-cta');
+                dot.classList.toggle('on-cta', !!isCta);
+                ring.classList.toggle('on-cta', !!isCta);
+            }
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.closest(interactiveEls)) {
+                dot.classList.remove('active','on-cta');
+                ring.classList.remove('active','on-cta');
+            }
+        });
+
+        // Hide when leaving window
+        document.addEventListener('mouseleave', () => { dot.style.opacity='0'; ring.style.opacity='0'; });
+        document.addEventListener('mouseenter', () => { dot.style.opacity='1'; ring.style.opacity='0.8'; });
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 3 — ANIMATED STAT COUNTERS
+    // ════════════════════════════════════════════════════════════════
+    function animateCounter(el) {
+        const target  = parseInt(el.dataset.target);
+        const from    = parseInt(el.dataset.from) || 0;
+        const suffix  = el.dataset.suffix || '';
+        const duration = target > 100 ? 1800 : 1200;
+        const startTime = performance.now();
 
-    /* ── 4. HERO EYEBROW TYPEWRITER ─────────────────── */
-    const heroEyebrow = document.getElementById('heroEyebrow');
-    const eyebrowText = 'THE LEGEND OF LEGIONA // SKYXION : ALTAËR ERA';
-    if (heroEyebrow) {
-        let i = 0;
-        const typeInterval = setInterval(() => {
-            heroEyebrow.textContent = eyebrowText.slice(0, ++i);
-            if (i >= eyebrowText.length) clearInterval(typeInterval);
-        }, 35);
+        function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+        function tick(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const value = Math.round(from + (target - from) * easeOut(progress));
+            el.textContent = value.toLocaleString() + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
     }
 
-    /* ── 5. TEXT SCRAMBLE EFFECT ─────────────────────── */
-    const scrambleTarget = document.getElementById('scrambleTarget');
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@$%';
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.num[data-target]').forEach(el => animateCounter(el));
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const statsStrip = document.getElementById('statsStrip');
+    if (statsStrip) statsObserver.observe(statsStrip);
+
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 4 — 3D CARD TILT (desktop only)
+    // ════════════════════════════════════════════════════════════════
+    if (isDesktop) {
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const cx = rect.left + rect.width  / 2;
+                const cy = rect.top  + rect.height / 2;
+                const dx = (e.clientX - cx) / (rect.width  / 2);
+                const dy = (e.clientY - cy) / (rect.height / 2);
+
+                // Limit tilt to ±8deg for subtlety
+                const rotX = -dy * 8;
+                const rotY =  dx * 8;
+
+                card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+                card.style.transition = 'transform 0.05s linear, box-shadow 0.25s';
+
+                // Shimmer position via CSS vars
+                const px = ((e.clientX - rect.left) / rect.width)  * 100;
+                const py = ((e.clientY - rect.top)  / rect.height) * 100;
+                card.style.setProperty('--mx', px + '%');
+                card.style.setProperty('--my', py + '%');
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.3s';
+                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 5 — HERO TYPEWRITER + SCRAMBLE
+    // ════════════════════════════════════════════════════════════════
+    // Typewriter on hero eyebrow
+    const eyebrow = document.getElementById('heroEyebrow');
+    const eyebrowText = 'THE SUS // EST. 2023 // SOVEREIGN NATION // SKYXION: ALTAËR ERA';
+    let twIndex = 0;
+
+    function typeWriter() {
+        if (twIndex <= eyebrowText.length) {
+            eyebrow.textContent = eyebrowText.slice(0, twIndex);
+            twIndex++;
+            setTimeout(typeWriter, twIndex === 1 ? 600 : 28);
+        }
+    }
+    setTimeout(typeWriter, 900); // Start after hero animates in
+
+    // Text scramble on "Legend"
+    const scrambleEl = document.getElementById('scrambleTarget');
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$&';
+    const ORIGINAL = 'Legend';
+
     function scramble(el, finalText, duration) {
-        if (!el) return;
-        let frame = 0;
-        const totalFrames = duration / 16;
-        const interval = setInterval(() => {
+        const startTime = performance.now();
+        function tick(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const revealedCount = Math.floor(progress * finalText.length);
             let result = '';
-            for (let c = 0; c < finalText.length; c++) {
-                if (frame / totalFrames > c / finalText.length) {
-                    result += finalText[c];
+            for (let i = 0; i < finalText.length; i++) {
+                if (i < revealedCount) {
+                    result += finalText[i];
                 } else {
-                    result += chars[Math.floor(Math.random() * chars.length)];
+                    result += CHARS[Math.floor(Math.random() * CHARS.length)];
                 }
             }
             el.textContent = result;
-            if (++frame >= totalFrames) {
-                el.textContent = finalText;
-                clearInterval(interval);
-            }
-        }, 16);
-    }
-
-    setTimeout(() => scramble(scrambleTarget, 'Legend', 900), 600);
-
-    /* ── 6. HERO PARALLAX GLOW ───────────────────────── */
-    const heroGlow = document.getElementById('heroGlow');
-    document.addEventListener('mousemove', (e) => {
-        if (!heroGlow) return;
-        const xPct = (e.clientX / window.innerWidth  - 0.5) * 18;
-        const yPct = (e.clientY / window.innerHeight - 0.5) * 12;
-        heroGlow.style.transform = `translate(${xPct}px, ${yPct}px)`;
-    });
-
-    /* ── 7. MAGNETIC BUTTONS ─────────────────────────── */
-    document.querySelectorAll('.btn-primary').forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1);
-            const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
-            btn.style.setProperty('--mx', x + '%');
-            btn.style.setProperty('--my', y + '%');
-        });
-    });
-
-    /* ── 8. 3D TILT CARDS ────────────────────────────── */
-    function initTilt(el) {
-        el.addEventListener('mousemove', (e) => {
-            const rect = el.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width;
-            const y = (e.clientY - rect.top)  / rect.height;
-            const tiltX = (y - 0.5) * -8;
-            const tiltY = (x - 0.5) *  8;
-            el.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(4px)`;
-            el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
-            el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
-        });
-        el.addEventListener('mouseleave', () => {
-            el.style.transform = '';
-        });
-    }
-
-    document.querySelectorAll('.tilt-card').forEach(initTilt);
-
-    /* ── 9. SCROLL REVEAL ────────────────────────────── */
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    /* ── 10. STAT COUNTERS ───────────────────────────── */
-    function animateCounter(el) {
-        const target = parseInt(el.dataset.target, 10);
-        const from   = parseInt(el.dataset.from,   10) || 0;
-        const suffix = el.dataset.suffix || '';
-        const duration = 1600;
-        const start = performance.now();
-
-        function step(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(from + (target - from) * eased);
-            el.textContent = current.toLocaleString() + suffix;
-            if (progress < 1) requestAnimationFrame(step);
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = finalText;
         }
-        requestAnimationFrame(step);
+        requestAnimationFrame(tick);
     }
 
-    const statsStrip = document.getElementById('statsStrip');
-    let statsAnimated = false;
+    // Trigger scramble after page loads
+    setTimeout(() => scramble(scrambleEl, ORIGINAL, 900), 1400);
 
-    if (statsStrip) {
-        const statsObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !statsAnimated) {
-                statsAnimated = true;
-                document.querySelectorAll('.stat-block .num').forEach(animateCounter);
-                statsObserver.disconnect();
-            }
-        }, { threshold: 0.3 });
-        statsObserver.observe(statsStrip);
-    }
+    // Re-scramble on hover (addictive — try it)
+    scrambleEl.addEventListener('mouseenter', () => {
+        scramble(scrambleEl, ORIGINAL, 600);
+    });
 
-    /* ── 11. INTERACTIVE TIMELINE ────────────────────── */
-    const eras = [
-        {
-            date:  '2023 // EARLY',
-            badge: 'ORIGIN',
-            badgeClass: '',
-            accentClass: '',
-            title: 'The Sus Founded',
-            desc:  'Faiz4224, ItzDynozz & Imii Kun form the original squad in Skyxion. Three founders, one shared vision. EhekSquad joined during this era, though their exact status was never formally defined — The Sus had no governance structure yet.',
-            ghost: '01',
-            nodeClass: ''
-        },
-        {
-            date:  '2023 // LATE',
-            badge: 'REBIRTH',
-            badgeClass: '',
-            accentClass: '',
-            title: 'Renamed & Reborn',
-            desc:  'At the proposal of Imii Kun, the nation is renamed "The Legend of Legiona." A new flag, a new identity, and the foundations of proper governance are laid for the first time.',
-            ghost: '02',
-            nodeClass: ''
-        },
-        {
-            date:  'MAY 6, 2023',
-            badge: 'DEMOCRACY',
-            badgeClass: '',
-            accentClass: '',
-            title: 'First Presidential Election',
-            desc:  'The first democratic election is held. UltraX2020 of the PHRTL party wins, becoming the first elected President of The LoL. A historic milestone — The LoL becomes the first Skyxion nation to hold democratic elections.',
-            ghost: '03',
-            nodeClass: ''
-        },
-        {
-            date:  '2023 // CRISIS',
-            badge: 'CRISIS',
-            badgeClass: 'badge-chaos',
-            accentClass: 'accent-chaos',
-            title: 'Chaos & Political Crisis',
-            desc:  'UltraX2020 resigns from the presidency under mounting political pressure. The LoL City sign is bombed. A TNT attack destroys the TLCC. With governance in collapse, Faiz4224 steps back in to restore order.',
-            ghost: '04',
-            nodeClass: 'itl-chaos'
-        },
-        {
-            date:  'NOV 8, 2023',
-            badge: 'RECOVERY',
-            badgeClass: '',
-            accentClass: '',
-            title: 'Resistance & Recovery',
-            desc:  'Faiz4224 retakes leadership and begins the rebuilding process. The ISC (formerly TLIO) is reformed as the primary intelligence and security agency. National infrastructure projects resume under a new administration.',
-            ghost: '05',
-            nodeClass: ''
-        },
-        {
-            date:  '2025 – 2026',
-            badge: 'PRESENT',
-            badgeClass: 'badge-current',
-            accentClass: 'accent-gold',
-            title: 'The Modern Era',
-            desc:  'The LoL enters the Altaër Era — the most prosperous chapter in its history. The national website ecosystem launches across nine sub-domains. TL Railways spans 4,800+ blocks. Paiz® Corp expands to five subsidiaries.',
-            ghost: '06',
-            nodeClass: 'itl-gold'
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 6 — MAGNETIC CTA BUTTON
+    // ════════════════════════════════════════════════════════════════
+    if (isDesktop) {
+        const ctaBtn = document.getElementById('ctaBtn');
+        if (ctaBtn) {
+            ctaBtn.addEventListener('mousemove', (e) => {
+                const rect = ctaBtn.getBoundingClientRect();
+                const cx = rect.left + rect.width  / 2;
+                const cy = rect.top  + rect.height / 2;
+                const dx = (e.clientX - cx) / (rect.width  / 2);
+                const dy = (e.clientY - cy) / (rect.height / 2);
+                // Magnetic pull — max 6px
+                ctaBtn.style.transform = `translate(${dx * 6}px, ${dy * 6}px) translateY(-2px)`;
+                // Track mouse position for light effect
+                const px = ((e.clientX - rect.left) / rect.width)  * 100;
+                const py = ((e.clientY - rect.top)  / rect.height) * 100;
+                ctaBtn.style.setProperty('--mx', px + '%');
+                ctaBtn.style.setProperty('--my', py + '%');
+            });
+            ctaBtn.addEventListener('mouseleave', () => {
+                ctaBtn.style.transition = 'transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), background 0.25s, box-shadow 0.25s';
+                ctaBtn.style.transform = '';
+                setTimeout(() => { ctaBtn.style.transition = ''; }, 400);
+            });
         }
-    ];
-
-    const itlPanel   = document.getElementById('itlPanel');
-    const itlContent = document.getElementById('itlContent');
-    const itlFill    = document.getElementById('itlFill');
-    const itlGhost   = document.getElementById('itlGhost');
-    const itlDate    = document.getElementById('itlDate');
-    const itlBadge   = document.getElementById('itlBadge');
-    const itlTitle   = document.getElementById('itlTitle');
-    const itlDesc    = document.getElementById('itlDesc');
-    const itlPrev    = document.getElementById('itlPrev');
-    const itlNext    = document.getElementById('itlNext');
-    const itlCounter = document.getElementById('itlCounter');
-    const itlNodes   = document.querySelectorAll('.itl-node');
-
-    let currentEra = 0;
-    let isTransitioning = false;
-
-    function setEra(index, direction) {
-        if (isTransitioning || index === currentEra) return;
-        isTransitioning = true;
-
-        const exitY = direction > 0 ? '-7px' : '7px';
-        const enterY = direction > 0 ? '7px' : '-7px';
-
-        itlContent.style.setProperty('--itl-exit-y', exitY);
-        itlContent.classList.add('is-exiting');
-
-        setTimeout(() => {
-            currentEra = index;
-            const era = eras[index];
-
-            // Update content
-            itlDate.textContent  = era.date;
-            itlTitle.textContent = era.title;
-            itlDesc.textContent  = era.desc;
-            itlGhost.textContent = era.ghost;
-            itlBadge.textContent = era.badge;
-            itlBadge.className   = 'itl-badge ' + era.badgeClass;
-            itlPanel.className   = 'itl-panel ' + era.accentClass;
-
-            // Progress fill
-            const pct = (index / (eras.length - 1)) * 100;
-            itlFill.style.width = pct + '%';
-
-            // Nodes
-            itlNodes.forEach((n, i) => {
-                n.classList.toggle('active', i === index);
-            });
-
-            // Counter
-            itlCounter.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(eras.length).padStart(2, '0');
-
-            // Buttons
-            itlPrev.disabled = index === 0;
-            itlNext.disabled = index === eras.length - 1;
-
-            // Animate in
-            itlContent.style.setProperty('--itl-enter-y', enterY);
-            itlContent.classList.remove('is-exiting');
-            itlContent.classList.add('is-entering');
-
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    itlContent.classList.remove('is-entering');
-                    isTransitioning = false;
-                });
-            });
-        }, 280);
     }
 
-    // Node buttons
-    itlNodes.forEach((node, i) => {
-        node.addEventListener('click', () => {
-            const dir = i > currentEra ? 1 : -1;
-            setEra(i, dir);
-        });
-    });
-
-    // Prev / Next
-    if (itlPrev) itlPrev.addEventListener('click', () => { if (currentEra > 0) setEra(currentEra - 1, -1); });
-    if (itlNext) itlNext.addEventListener('click', () => { if (currentEra < eras.length - 1) setEra(currentEra + 1, 1); });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' && currentEra < eras.length - 1) setEra(currentEra + 1,  1);
-        if (e.key === 'ArrowLeft'  && currentEra > 0)               setEra(currentEra - 1, -1);
-    });
-
-    // Touch/swipe
-    let touchStartX = 0;
-    if (itlPanel) {
-        itlPanel.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-        itlPanel.addEventListener('touchend',   (e) => {
-            const delta = touchStartX - e.changedTouches[0].clientX;
-            if (Math.abs(delta) > 40) {
-                if (delta > 0 && currentEra < eras.length - 1) setEra(currentEra + 1,  1);
-                if (delta < 0 && currentEra > 0)               setEra(currentEra - 1, -1);
-            }
-        }, { passive: true });
-    }
-
-    // Initialise fill at 0
-    if (itlFill) itlFill.style.width = '0%';
-
-    /* ── 12. HAMBURGER MOBILE MENU ───────────────────── */
-    const hamburger  = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', () => {
-            const isOpen = hamburger.classList.toggle('open');
-            mobileMenu.classList.toggle('open', isOpen);
-            hamburger.setAttribute('aria-expanded', isOpen);
-        });
-    }
-
-    window.closeMobile = function () {
-        if (hamburger)  hamburger.classList.remove('open');
-        if (mobileMenu) mobileMenu.classList.remove('open');
-        if (hamburger)  hamburger.setAttribute('aria-expanded', 'false');
-    };
-
-    /* ── 13. KONAMI CODE EASTER EGG ──────────────────── */
-    const KONAMI = [38,38,40,40,37,39,37,39,66,65];
-    let konamiIndex = 0;
+    // ════════════════════════════════════════════════════════════════
+    //  LAYER 7 — KONAMI CODE EASTER EGG
+    // ════════════════════════════════════════════════════════════════
+    const KONAMI = [38,38,40,40,37,39,37,39,66,65]; // ↑↑↓↓←→←→BA
+    let kSeq = [];
     const konamiOverlay = document.getElementById('konami-overlay');
     const konamiLog     = document.getElementById('konami-log');
 
-    const logLines = [
-        '> IDENTITY: SIGMA CLEARANCE CONFIRMED',
-        '> ACCESSING: BLACK HOUSE SECURE TERMINAL',
-        '> LOCATION: [CLASSIFIED] — ALTAËR SECTOR',
-        '> STATUS: ALL SYSTEMS OPERATIONAL',
-        '> TIP: The next election is closer than you think.',
+    const konamiLines = [
+        '> KONAMI SEQUENCE DETECTED...',
+        '> VERIFYING OPERATOR CREDENTIALS...',
+        '> IDENTITY CONFIRMED: FAIZ4224',
+        '> RANK: FIRST PRESIDENT // FOUNDING LEADER',
+        '> CLEARANCE LEVEL: SIGMA (MAXIMUM)',
+        '> ACCESSING CLASSIFIED NATIONAL RECORDS...',
+        '> TLSRL STATUS: OPERATIONAL [4,800+ BLOCKS]',
+        '> TLCC TWIN TOWERS: SECURED',
+        '> ISC THREAT MONITOR: NO ACTIVE THREATS',
+        '> NATIONAL FARMS: ALL SYSTEMS NOMINAL',
+        '> WELCOME BACK, PRESIDENT. THE LOL STANDS STRONG.'
     ];
 
     document.addEventListener('keydown', (e) => {
-        if (e.keyCode === KONAMI[konamiIndex]) {
-            konamiIndex++;
-            if (konamiIndex === KONAMI.length) {
-                konamiIndex = 0;
-                openKonami();
-            }
-        } else {
-            konamiIndex = 0;
-        }
-    });
-
-    function openKonami() {
-        if (!konamiOverlay) return;
-        konamiOverlay.classList.add('active');
-        if (konamiLog) {
+        kSeq.push(e.keyCode);
+        if (kSeq.length > KONAMI.length) kSeq.shift();
+        if (kSeq.join(',') === KONAMI.join(',')) {
+            konamiOverlay.classList.add('active');
             konamiLog.innerHTML = '';
-            logLines.forEach((line, i) => {
+            konamiLines.forEach((line, i) => {
                 const span = document.createElement('span');
                 span.className = 'log-line';
                 span.textContent = line;
-                span.style.animationDelay = (i * 0.18) + 's';
+                span.style.animationDelay = (i * 0.22) + 's';
                 konamiLog.appendChild(span);
             });
+            kSeq = [];
         }
+    });
+
+    function closeKonami() {
+        konamiOverlay.classList.remove('active');
     }
-
-    window.closeKonami = function () {
-        if (konamiOverlay) konamiOverlay.classList.remove('active');
-    };
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') window.closeKonami();
+    konamiOverlay.addEventListener('click', (e) => {
+        if (e.target === konamiOverlay) closeKonami();
     });
 
-    /* ── 14. SMOOTH ANCHOR LINKS ─────────────────────── */
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', (e) => {
-            const target = document.querySelector(link.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                const offset = 92; // nav height
-                const top = target.getBoundingClientRect().top + window.scrollY - offset;
-                window.scrollTo({ top, behavior: 'smooth' });
-                window.closeMobile();
-            }
+    // ════════════════════════════════════════════════════════════════
+    //  INTERACTIVE TIMELINE
+    // ════════════════════════════════════════════════════════════════
+    (function () {
+        const ERAS = [
+            { date:"2023 // EARLY", badge:"ORIGIN", badgeClass:"", title:"The Sus Founded", desc:"Faiz4224, ItzDynozz & Imii Kun form the original squad in Skyxion. Three founders, one shared vision. EhekSquad joined during this era, though their exact status as citizens, allies, or residents was never formally defined — The Sus had no governance structure yet.", accent:"" },
+            { date:"2023", badge:"GOLDEN ERA", badgeClass:"", title:"Renamed & Reborn", desc:"Renamed \"The Legend of Legiona.\" The nation rapidly becomes the most modern and wealthiest in all of Skyxion. Under President Faiz4224, The LoL thrives in economy, infrastructure, and innovation.", accent:"" },
+            { date:"MAY 6, 2023", badge:"DEMOCRACY", badgeClass:"", title:"First Presidential Election", desc:"The LoL holds its first democratic election. UltraX2020 and the Parti Harapan Rakyat The LoL (PHRTL) win, becoming the 2nd President — a significant milestone and turning point in national governance.", accent:"" },
+            { date:"2023 // CRISIS", badge:"CONFLICT", badgeClass:"badge-chaos", title:"Chaos & Conflict", desc:"Internal strife erupts under UltraX2020. The LoL City sign is bombed. TLCC is attacked by drones. Political chaos grips the nation — the darkest and most turbulent chapter in the history of Legiona.", accent:"accent-chaos" },
+            { date:"NOV 8, 2023", badge:"REBIRTH", badgeClass:"", title:"Resistance & Recovery", desc:"UltraX2020 resigns. Faiz4224 resumes leadership. Infrastructure projects launch, security is reinforced. The intelligence body TLIO — predecessor to ISC — is established to defend The LoL from future threats.", accent:"" },
+            { date:"2025–2026", badge:"CURRENT ERA", badgeClass:"badge-current", title:"The Modern Era", desc:"TLIO is reborn as the Internal Security Control (ISC). The Skyxion: Altaer era begins. The LoL stands today as a symbol of perseverance and innovation. The greatest chapter is still being written.", accent:"accent-gold" }
+        ];
+
+        let current = 0, transitioning = false;
+        const fill = document.getElementById('itlFill'), panel = document.getElementById('itlPanel'),
+              content = document.getElementById('itlContent'), dateEl = document.getElementById('itlDate'),
+              badgeEl = document.getElementById('itlBadge'), titleEl = document.getElementById('itlTitle'),
+              descEl = document.getElementById('itlDesc'), ghostEl = document.getElementById('itlGhost'),
+              counter = document.getElementById('itlCounter'), prevBtn = document.getElementById('itlPrev'),
+              nextBtn = document.getElementById('itlNext'), nodes = document.querySelectorAll('.itl-node');
+
+        function pad(n) { return String(n).padStart(2,'0'); }
+        function updateFill(i) { fill.style.width = ERAS.length > 1 ? (i/(ERAS.length-1))*100+'%' : '0%'; }
+
+        function goTo(index) {
+            if (transitioning || index === current || index < 0 || index >= ERAS.length) return;
+            transitioning = true;
+            const dir = index > current ? 1 : -1;
+            const era = ERAS[index];
+            content.style.setProperty('--itl-exit-y', dir > 0 ? '-8px' : '8px');
+            content.classList.add('is-exiting');
+            setTimeout(() => {
+                dateEl.textContent = era.date; badgeEl.textContent = era.badge;
+                badgeEl.className = 'itl-badge ' + era.badgeClass;
+                titleEl.textContent = era.title; descEl.textContent = era.desc;
+                ghostEl.textContent = pad(index+1); counter.textContent = pad(index+1)+' / '+pad(ERAS.length);
+                panel.className = 'itl-panel '+(era.accent||'');
+                nodes.forEach((n,i) => n.classList.toggle('active', i===index));
+                updateFill(index);
+                prevBtn.disabled = index === 0; nextBtn.disabled = index === ERAS.length-1;
+                current = index;
+                content.style.setProperty('--itl-enter-y', dir > 0 ? '8px' : '-8px');
+                content.classList.remove('is-exiting'); content.classList.add('is-entering');
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    content.classList.remove('is-entering');
+                    setTimeout(() => { transitioning = false; }, 320);
+                }));
+            }, 290);
+        }
+
+        nodes.forEach((n,i) => n.addEventListener('click', () => goTo(i)));
+        prevBtn.addEventListener('click', () => goTo(current-1));
+        nextBtn.addEventListener('click', () => goTo(current+1));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            const s = document.getElementById('history');
+            if (!s) return;
+            const r = s.getBoundingClientRect();
+            if (r.top > window.innerHeight || r.bottom < 0) return;
+            e.preventDefault();
+            goTo(e.key === 'ArrowLeft' ? current-1 : current+1);
         });
-    });
 
-    /* ── INIT ─────────────────────────────────────────── */
-    updateScrollProgress();
-
-})();
+        let tStartX = 0;
+        panel.addEventListener('touchstart', (e) => { tStartX = e.touches[0].clientX; }, { passive:true });
+        panel.addEventListener('touchend',   (e) => { const d = tStartX - e.changedTouches[0].clientX; if (Math.abs(d) > 48) goTo(d > 0 ? current+1 : current-1); }, { passive:true });
+        updateFill(0); prevBtn.disabled = true;
+    })();
