@@ -5,21 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Legend of Legiona — The LoL</title>
     <link rel="icon" type="image/png" href="/main/assets/images/logo.png">
+    <!-- FIX: og:image must be absolute URL -->
     <meta property="og:title" content="The Legend of Legiona">
     <meta property="og:description" content="A sovereign nation forged in vision, courage, and camaraderie. Welcome to The LoL.">
     <meta property="og:url" content="https://thelegendoflegiona.github.io/main/">
-    <meta property="og:image" content="/main/assets/images/logo.png">
+    <meta property="og:image" content="https://thelegendoflegiona.github.io/main/assets/images/logo.png">
     <meta property="og:type" content="website">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/main/assets/css/style.css">
 </head>
-<script type="module" src="/gov/assets/js/stats.js"></script>
 <body>
 
     <!-- ── INTERACTIVE ELEMENTS ── -->
     <div id="scroll-progress"></div>
-    <div id="cur-dot"></div>
-    <div id="cur-ring"></div>
+    <!-- FIX: Removed custom cursor (#cur-dot, #cur-ring) for accessibility -->
+    <!-- Original: <div id="cur-dot"></div><div id="cur-ring"></div> -->
+    <!-- To restore, ensure it respects prefers-reduced-motion and never hides native cursor. -->
 
     <!-- KONAMI OVERLAY -->
     <div id="konami-overlay">
@@ -35,8 +36,9 @@
     <!-- NETWORK BAR -->
     <nav class="netbar" id="netbar" aria-label="Network">
         <div class="netbar-inner">
-            <a href="https://faizzzlol.github.io/paizcorp/">PAIZ® CORP</a>
-            <a href="#" class="nb-active">THE LOL</a>
+            <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a>
+            <!-- FIX: replaced href="#" with #home, added aria-current -->
+            <a href="#home" class="nb-active" aria-current="page">THE LOL</a>
             <a href="/gov/">GOVERNMENT</a>
             <a href="/isc/">ISC</a>
             <a href="/tlrailways/">TL RAILWAYS</a>
@@ -45,7 +47,8 @@
 
     <!-- SITE NAV -->
     <header class="sitenav" id="sitenav">
-        <a href="#" class="sitenav-logo">
+        <!-- FIX: replaced href="#" with #home -->
+        <a href="#home" class="sitenav-logo">
             <img src="/main/assets/images/logo.png" alt="The LoL" onerror="this.style.display='none'">
             <span>THE LOL</span>
         </a>
@@ -72,186 +75,191 @@
         <a href="/gov/" onclick="closeMobile()">GOVERNMENT PORTAL</a>
         <a href="/isc/" onclick="closeMobile()">ISC</a>
         <a href="/tlrailways/" onclick="closeMobile()">TL RAILWAYS</a>
-        <a href="https://faizzzlol.github.io/paizcorp/" onclick="closeMobile()">PAIZ® CORP</a>
+        <a href="https://faizzzlol.github.io/paizcorp/" onclick="closeMobile()" rel="noopener">PAIZ® CORP</a>
         <a href="/main/about/" onclick="closeMobile()">FULL HISTORY</a>
     </nav>
 
-    <!-- HERO -->
-    <section class="hero" id="home">
-        <div class="hero-bg-glow" id="heroGlow"></div>
-        <div class="hero-bg-glow-2"></div>
-        <div class="hero-grid-bg"></div>
-        <div class="hero-inner">
-            <div class="hero-eyebrow" id="heroEyebrow"></div>
-            <h1>
-                The <span class="outline-text" id="scrambleTarget">Legend</span><br>
-                of <span class="gold-text">Legiona.</span>
-            </h1>
-            <p class="hero-sub">
-                A sovereign nation forged in vision, courage, and camaraderie.
-                From a squad of three to the most modern nation in Skyxion —
-                this is <strong>The LoL.</strong>
-            </p>
-            <div class="hero-actions">
-                <a href="#network" class="btn-primary" id="ctaBtn">EXPLORE THE NETWORK</a>
-                <a href="/main/about/" class="btn-secondary">FULL HISTORY →</a>
-            </div>
-        </div>
-        <div class="hero-scroll"><div class="scroll-line"></div></div>
-    </section>
-
-    <!-- NETWORK HUB -->
-    <section class="hub-section" id="network">
-        <div class="hub-inner">
-            <div class="hub-header reveal">
-                <div>
-                    <div class="section-eyebrow">COMPLETE NETWORK DIRECTORY</div>
-                    <h2>Everything<br>in <em>The Network.</em></h2>
+    <!-- FIX: Added <main> landmark to wrap all primary content -->
+    <main>
+        <!-- HERO -->
+        <section class="hero" id="home">
+            <div class="hero-bg-glow" id="heroGlow"></div>
+            <div class="hero-bg-glow-2"></div>
+            <div class="hero-grid-bg"></div>
+            <div class="hero-inner">
+                <div class="hero-eyebrow" id="heroEyebrow"></div>
+                <h1>
+                    The <span class="outline-text" id="scrambleTarget">Legend</span><br>
+                    of <span class="gold-text">Legiona.</span>
+                </h1>
+                <p class="hero-sub">
+                    A sovereign nation forged in vision, courage, and camaraderie.
+                    From a squad of three to the most modern nation in Skyxion —
+                    this is <strong>The LoL.</strong>
+                </p>
+                <div class="hero-actions">
+                    <a href="#network" class="btn-primary" id="ctaBtn">EXPLORE THE NETWORK</a>
+                    <a href="/main/about/" class="btn-secondary">FULL HISTORY →</a>
                 </div>
-                <p>Every portal, studio, store, and service across The LoL and the Paiz® Corp network — all in one place.</p>
             </div>
-            <div class="hub-sublabel reveal" style="margin-top:0; border-top:none; padding-top:0;">THE LOL — GOVERNMENT PORTALS</div>
-            <div class="hub-featured reveal">
-                <a href="/gov/" class="hub-card tilt-card">
-                    <span class="hc-tag">PORTAL-01 // OFFICIAL GOVERNANCE</span>
-                    <div class="hc-title">The LoL Government Portal</div>
-                    <p class="hc-desc">Legislation, departments, proclamation documents, founding history, and national megaprojects. The official face of The LoL's governance.</p>
-                    <span class="hc-arrow">ACCESS GOVERNMENT →</span>
-                </a>
-                <a href="/isc/" class="hub-card gold-card tilt-card">
-                    <span class="hc-tag">PORTAL-02 // INTELLIGENCE AGENCY</span>
-                    <div class="hc-title">ISC — Internal Security Control</div>
-                    <p class="hc-desc">Sovereignty through oversight. The LoL's primary intelligence and security agency. Successor to TLIO.</p>
-                    <span class="hc-arrow">ENTER ISC →</span>
-                </a>
-            </div>
-            <div class="hub-sublabel reveal">THE LOL — SUB-SITES &amp; PORTALS</div>
-            <div class="hub-grid-4 reveal">
-                <a href="/main/about/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">HISTORY // THE LOL</span><span class="hm-name">About The LoL</span><p class="hm-desc">The full national timeline — from The Sus Era to the Altër Era.</p><span class="hm-arrow">READ MORE →</span></a>
-                <a href="/tlrailways/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">TRANSPORT // NATIONAL</span><span class="hm-name">TL Railways</span><p class="hm-desc">National rail network. Routes, timetables, and 4,800+ blocks of track.</p><span class="hm-arrow">VIEW ROUTES →</span></a>
-                <a href="/gov/systems/archives/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">DOCUMENTS // LEGAL</span><span class="hm-name">Legal Archive</span><p class="hm-desc">Proclamations, citizenship acts, decrees and sovereign legal records. Searchable.</p><span class="hm-arrow">BROWSE DOCS →</span></a>
-                <a href="/isc/national/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">ARCHIVE // PUBLIC ACCESS</span><span class="hm-name">ISC National Archive</span><p class="hm-desc">Declassified ISC records and national transparency portal.</p><span class="hm-arrow">OPEN ARCHIVE →</span></a>
-            </div>
-            <div class="hub-sublabel gold reveal">PAIZ® CORP — FULL NETWORK</div>
-            <div class="hub-grid reveal">
-                <a href="https://faizzzlol.github.io/paizcorp/" class="hub-mini tilt-card"><span class="hm-tag">HUB // PARENT COMPANY</span><span class="hm-name">Paiz® Corp</span><p class="hm-desc">The conglomerate homepage. Explore all subsidiaries, services, and projects under one roof.</p><span class="hm-arrow">VISIT HUB →</span></a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizshop/" class="hub-mini tilt-card"><span class="hm-tag">STOREFRONT // CORP</span><span class="hm-name">Paiz Shop</span><p class="hm-desc">Official in-game item shop. Browse and order resources in-world. Priced in diamonds.</p><span class="hm-arrow">SHOP NOW →</span></a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizchicken/" class="hub-mini tilt-card"><span class="hm-tag">FOOD &amp; BEVERAGE // CORP</span><span class="hm-name">Paiz Chicken</span><p class="hm-desc">Online food ordering across Skyxion. Fast, hot, and priced in diamonds.</p><span class="hm-arrow">ORDER NOW →</span></a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/" class="hub-mini tilt-card"><span class="hm-tag">FILM &amp; MEDIA // CORP</span><span class="hm-name">PaizProductions</span><p class="hm-desc">Official Paiz® Corp film studio. Home of The LoL Movie, Chronicles, and ISC: Classified.</p><span class="hm-arrow">VIEW STUDIO →</span></a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" class="hub-mini tilt-card"><span class="hm-tag">FILM // PAIZPRODUCTIONS</span><span class="hm-name">The LoL Movie</span><p class="hm-desc">The upcoming cinematic feature. The story of The Legend of Legiona — on screen.</p><span class="hm-arrow">LEARN MORE →</span></a>
-            </div>
-            <div class="hub-sublabel reveal">COMMUNITY &amp; RESOURCES</div>
-            <div class="hub-grid-3 reveal">
-                <a href="https://discord.gg/TB4T8qwN4R" target="_blank" rel="noopener" class="hub-mini community-accent tilt-card"><span class="hm-tag">COMMUNITY // DISCORD</span><span class="hm-name">The LoL Discord</span><p class="hm-desc">The official server. Connect, apply for citizenship, and follow announcements.</p><span class="hm-arrow">JOIN SERVER →</span></a>
-                <!-- FIX #1: href was "/thelol/download-tlolpack.html" — wrong prefix + .html extension -->
-                <a href="/main/pack/" class="hub-mini community-accent tilt-card"><span class="hm-tag">RESOURCES // THE LOL</span><span class="hm-name">The LoL Pack</span><p class="hm-desc">Official Minecraft resource pack for the best in-server visual experience.</p><span class="hm-arrow">DOWNLOAD →</span></a>
-            </div>
-        </div>
-    </section>
+            <div class="hero-scroll"><div class="scroll-line"></div></div>
+        </section>
 
-    <!-- STATS -->
-    <div class="stats-strip reveal" id="statsStrip">
-        <div class="stats-inner">
-            <div class="stat-block"><span class="num" data-target="2021" data-from="2026" data-suffix="">2021</span><span class="lbl">YEAR FOUNDED</span></div>
-            <div class="stat-block"><span class="num" data-target="3" data-from="0" data-suffix="">3</span><span class="lbl">FOUNDING MEMBERS</span></div>
-            <div class="stat-block"><span class="num" data-target="4800" data-from="0" data-suffix="+">4800+</span><span class="lbl">BLOCKS — TLSRL</span></div>
-            <div class="stat-block"><span class="num" data-target="9" data-from="0" data-suffix="">9</span><span class="lbl">NETWORK SITES</span></div>
-        </div>
-    </div>
-
-    <!-- ABOUT -->
-    <section class="about-section" id="about">
-        <div class="about-inner">
-            <div class="about-text reveal">
-                <div class="section-eyebrow">THE LEGEND OF LEGIONA</div>
-                <h2>More than a nation —<br>a <em>legacy.</em></h2>
-                <p>The Legend of Legiona, known as <strong>The LoL</strong>, is a sovereign nation within the Skyxion world. Originally founded as a small squad called <strong>"The Sus"</strong> by Faiz4224, ItzDynozz, and Imii Kun, the nation rapidly grew into the most modern and wealthiest in all of Skyxion.</p>
-                <p>Through democratic elections, political conflict, a presidential crisis, and full recovery — The LoL has proven that unity and perseverance can overcome anything.</p>
-                <p><em>"In the Name of Unity, Legacy, and Glory." — Proclamation of Sovereignty</em></p>
-                <!-- FIX #2: href was "/thelol/about" — wrong prefix + missing trailing slash -->
-                <a href="/main/about/" class="about-link">READ THE FULL HISTORY →</a>
-            </div>
-            <div class="pillars reveal">
-                <div class="pillar tilt-card"><span class="pillar-num">01</span><div><h4>Unity</h4><p>All players stand as one, striving for collective greatness across Skyxion.</p></div></div>
-                <div class="pillar tilt-card"><span class="pillar-num">02</span><div><h4>Freedom</h4><p>Every citizen has the right to explore, create, and thrive within The LoL.</p></div></div>
-                <div class="pillar tilt-card"><span class="pillar-num">03</span><div><h4>Innovation</h4><p>Harnessing Minecraft's limitless possibilities to build a nation unlike any other.</p></div></div>
-                <div class="pillar tilt-card"><span class="pillar-num">04</span><div><h4>Defence &amp; Honour</h4><p>Protecting our lands while upholding fairness and respect for all citizens.</p></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- HISTORY -->
-    <section class="history-section" id="history">
-        <div class="history-inner">
-            <div class="history-header reveal">
-                <h2>The story of<br><em>The LoL.</em></h2>
-                <p>From humble beginnings to a sovereign nation — every chapter shaped who we are.</p>
-            </div>
-            <div class="itl-wrap reveal">
-                <div class="itl-track-area">
-                    <div class="itl-track"><div class="itl-fill" id="itlFill"></div></div>
-                    <div class="itl-nodes">
-                        <!-- FIX #3: Label date was "2023 EARLY" — The Sus was founded in 2021, not 2023 -->
-                        <button class="itl-node active" data-era="0" aria-label="The Sus Founded"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2021 EARLY</span><span class="itl-lname">The Sus</span></div></button>
-                        <button class="itl-node" data-era="1" aria-label="Renamed and Reborn"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2023</span><span class="itl-lname">Reborn</span></div></button>
-                        <button class="itl-node" data-era="2" aria-label="First Presidential Election"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">MAY 6, 2023</span><span class="itl-lname">Election</span></div></button>
-                        <button class="itl-node itl-chaos" data-era="3" aria-label="Chaos and Conflict"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2023 CRISIS</span><span class="itl-lname">Chaos</span></div></button>
-                        <button class="itl-node" data-era="4" aria-label="Resistance and Recovery"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">NOV 8, 2023</span><span class="itl-lname">Recovery</span></div></button>
-                        <button class="itl-node itl-gold" data-era="5" aria-label="The Modern Era"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2025–2026</span><span class="itl-lname">Modern</span></div></button>
+        <!-- NETWORK HUB -->
+        <section class="hub-section" id="network">
+            <div class="hub-inner">
+                <div class="hub-header reveal">
+                    <div>
+                        <div class="section-eyebrow">COMPLETE NETWORK DIRECTORY</div>
+                        <h2>Everything<br>in <em>The Network.</em></h2>
                     </div>
+                    <p>Every portal, studio, store, and service across The LoL and the Paiz® Corp network — all in one place.</p>
                 </div>
-                <div class="itl-panel" id="itlPanel">
-                    <div class="itl-content" id="itlContent">
-                        <div class="itl-left">
-                            <span class="itl-era-date" id="itlDate">2021 // EARLY</span>
-                            <span class="itl-badge" id="itlBadge">ORIGIN</span>
-                            <h3 class="itl-title" id="itlTitle">The Sus Founded</h3>
-                        </div>
-                        <div class="itl-right">
-                            <p class="itl-desc" id="itlDesc">Faiz4224, ItzDynozz &amp; Imii Kun form the original squad in Skyxion. Three founders, one shared vision. EhekSquad joined during this era, though their exact status as citizens, allies, or residents was never formally defined — The Sus had no governance structure yet.</p>
+                <div class="hub-sublabel reveal" style="margin-top:0; border-top:none; padding-top:0;">THE LOL — GOVERNMENT PORTALS</div>
+                <div class="hub-featured reveal">
+                    <a href="/gov/" class="hub-card tilt-card">
+                        <span class="hc-tag">PORTAL-01 // OFFICIAL GOVERNANCE</span>
+                        <div class="hc-title">The LoL Government Portal</div>
+                        <p class="hc-desc">Legislation, departments, proclamation documents, founding history, and national megaprojects. The official face of The LoL's governance.</p>
+                        <span class="hc-arrow">ACCESS GOVERNMENT →</span>
+                    </a>
+                    <a href="/isc/" class="hub-card gold-card tilt-card">
+                        <span class="hc-tag">PORTAL-02 // INTELLIGENCE AGENCY</span>
+                        <div class="hc-title">ISC — Internal Security Control</div>
+                        <p class="hc-desc">Sovereignty through oversight. The LoL's primary intelligence and security agency. Successor to TLIO.</p>
+                        <span class="hc-arrow">ENTER ISC →</span>
+                    </a>
+                </div>
+                <div class="hub-sublabel reveal">THE LOL — SUB-SITES &amp; PORTALS</div>
+                <div class="hub-grid-4 reveal">
+                    <a href="/main/about/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">HISTORY // THE LOL</span><span class="hm-name">About The LoL</span><p class="hm-desc">The full national timeline — from The Sus Era to the Altër Era.</p><span class="hm-arrow">READ MORE →</span></a>
+                    <a href="/tlrailways/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">TRANSPORT // NATIONAL</span><span class="hm-name">TL Railways</span><p class="hm-desc">National rail network. Routes, timetables, and 4,800+ blocks of track.</p><span class="hm-arrow">VIEW ROUTES →</span></a>
+                    <a href="/gov/systems/archives/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">DOCUMENTS // LEGAL</span><span class="hm-name">Legal Archive</span><p class="hm-desc">Proclamations, citizenship acts, decrees and sovereign legal records. Searchable.</p><span class="hm-arrow">BROWSE DOCS →</span></a>
+                    <a href="/isc/national/" class="hub-mini corp-accent tilt-card"><span class="hm-tag">ARCHIVE // PUBLIC ACCESS</span><span class="hm-name">ISC National Archive</span><p class="hm-desc">Declassified ISC records and national transparency portal.</p><span class="hm-arrow">OPEN ARCHIVE →</span></a>
+                </div>
+                <div class="hub-sublabel gold reveal">PAIZ® CORP — FULL NETWORK</div>
+                <div class="hub-grid reveal">
+                    <!-- FIX: added rel="noopener" to all external links -->
+                    <a href="https://faizzzlol.github.io/paizcorp/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">HUB // PARENT COMPANY</span><span class="hm-name">Paiz® Corp</span><p class="hm-desc">The conglomerate homepage. Explore all subsidiaries, services, and projects under one roof.</p><span class="hm-arrow">VISIT HUB →</span></a>
+                    <a href="https://faizzzlol.github.io/paizcorp/paizshop/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">STOREFRONT // CORP</span><span class="hm-name">Paiz Shop</span><p class="hm-desc">Official in-game item shop. Browse and order resources in-world. Priced in diamonds.</p><span class="hm-arrow">SHOP NOW →</span></a>
+                    <a href="https://faizzzlol.github.io/paizcorp/paizchicken/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">FOOD &amp; BEVERAGE // CORP</span><span class="hm-name">Paiz Chicken</span><p class="hm-desc">Online food ordering across Skyxion. Fast, hot, and priced in diamonds.</p><span class="hm-arrow">ORDER NOW →</span></a>
+                    <a href="https://faizzzlol.github.io/paizcorp/paizproductions/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">FILM &amp; MEDIA // CORP</span><span class="hm-name">PaizProductions</span><p class="hm-desc">Official Paiz® Corp film studio. Home of The LoL Movie, Chronicles, and ISC: Classified.</p><span class="hm-arrow">VIEW STUDIO →</span></a>
+                    <a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">FILM // PAIZPRODUCTIONS</span><span class="hm-name">The LoL Movie</span><p class="hm-desc">The upcoming cinematic feature. The story of The Legend of Legiona — on screen.</p><span class="hm-arrow">LEARN MORE →</span></a>
+                </div>
+                <div class="hub-sublabel reveal">COMMUNITY &amp; RESOURCES</div>
+                <div class="hub-grid-3 reveal">
+                    <a href="https://discord.gg/TB4T8qwN4R" target="_blank" rel="noopener" class="hub-mini community-accent tilt-card"><span class="hm-tag">COMMUNITY // DISCORD</span><span class="hm-name">The LoL Discord</span><p class="hm-desc">The official server. Connect, apply for citizenship, and follow announcements.</p><span class="hm-arrow">JOIN SERVER →</span></a>
+                    <!-- FIX #1 corrected: /main/pack/ -->
+                    <a href="/main/pack/" class="hub-mini community-accent tilt-card"><span class="hm-tag">RESOURCES // THE LOL</span><span class="hm-name">The LoL Pack</span><p class="hm-desc">Official Minecraft resource pack for the best in-server visual experience.</p><span class="hm-arrow">DOWNLOAD →</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <div class="stats-strip reveal" id="statsStrip">
+            <div class="stats-inner">
+                <div class="stat-block"><span class="num" data-target="2021" data-from="2026" data-suffix="">2021</span><span class="lbl">YEAR FOUNDED</span></div>
+                <div class="stat-block"><span class="num" data-target="3" data-from="0" data-suffix="">3</span><span class="lbl">FOUNDING MEMBERS</span></div>
+                <div class="stat-block"><span class="num" data-target="4800" data-from="0" data-suffix="+">4800+</span><span class="lbl">BLOCKS — TLSRL</span></div>
+                <div class="stat-block"><span class="num" data-target="9" data-from="0" data-suffix="">9</span><span class="lbl">NETWORK SITES</span></div>
+            </div>
+        </div>
+
+        <!-- ABOUT -->
+        <section class="about-section" id="about">
+            <div class="about-inner">
+                <div class="about-text reveal">
+                    <div class="section-eyebrow">THE LEGEND OF LEGIONA</div>
+                    <h2>More than a nation —<br>a <em>legacy.</em></h2>
+                    <p>The Legend of Legiona, known as <strong>The LoL</strong>, is a sovereign nation within the Skyxion world. Originally founded as a small squad called <strong>"The Sus"</strong> by Faiz4224, ItzDynozz, and Imii Kun, the nation rapidly grew into the most modern and wealthiest in all of Skyxion.</p>
+                    <p>Through democratic elections, political conflict, a presidential crisis, and full recovery — The LoL has proven that unity and perseverance can overcome anything.</p>
+                    <p><em>"In the Name of Unity, Legacy, and Glory." — Proclamation of Sovereignty</em></p>
+                    <!-- FIX #2 corrected: /main/about/ -->
+                    <a href="/main/about/" class="about-link">READ THE FULL HISTORY →</a>
+                </div>
+                <div class="pillars reveal">
+                    <div class="pillar tilt-card"><span class="pillar-num">01</span><div><h4>Unity</h4><p>All players stand as one, striving for collective greatness across Skyxion.</p></div></div>
+                    <div class="pillar tilt-card"><span class="pillar-num">02</span><div><h4>Freedom</h4><p>Every citizen has the right to explore, create, and thrive within The LoL.</p></div></div>
+                    <div class="pillar tilt-card"><span class="pillar-num">03</span><div><h4>Innovation</h4><p>Harnessing Minecraft's limitless possibilities to build a nation unlike any other.</p></div></div>
+                    <div class="pillar tilt-card"><span class="pillar-num">04</span><div><h4>Defence &amp; Honour</h4><p>Protecting our lands while upholding fairness and respect for all citizens.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTORY -->
+        <section class="history-section" id="history">
+            <div class="history-inner">
+                <div class="history-header reveal">
+                    <h2>The story of<br><em>The LoL.</em></h2>
+                    <p>From humble beginnings to a sovereign nation — every chapter shaped who we are.</p>
+                </div>
+                <div class="itl-wrap reveal">
+                    <div class="itl-track-area">
+                        <div class="itl-track"><div class="itl-fill" id="itlFill"></div></div>
+                        <div class="itl-nodes">
+                            <!-- FIX #3: corrected founding date to 2021 EARLY -->
+                            <button class="itl-node active" data-era="0" aria-label="The Sus Founded"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2021 EARLY</span><span class="itl-lname">The Sus</span></div></button>
+                            <button class="itl-node" data-era="1" aria-label="Renamed and Reborn"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2023</span><span class="itl-lname">Reborn</span></div></button>
+                            <button class="itl-node" data-era="2" aria-label="First Presidential Election"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">MAY 6, 2023</span><span class="itl-lname">Election</span></div></button>
+                            <button class="itl-node itl-chaos" data-era="3" aria-label="Chaos and Conflict"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2023 CRISIS</span><span class="itl-lname">Chaos</span></div></button>
+                            <button class="itl-node" data-era="4" aria-label="Resistance and Recovery"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">NOV 8, 2023</span><span class="itl-lname">Recovery</span></div></button>
+                            <button class="itl-node itl-gold" data-era="5" aria-label="The Modern Era"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2025–2026</span><span class="itl-lname">Modern</span></div></button>
                         </div>
                     </div>
-                    <div class="itl-ghost" id="itlGhost">01</div>
+                    <div class="itl-panel" id="itlPanel">
+                        <!-- FIX: added aria-live region for dynamic content -->
+                        <div class="itl-content" id="itlContent" aria-live="polite" aria-atomic="true">
+                            <div class="itl-left">
+                                <span class="itl-era-date" id="itlDate">2021 // EARLY</span>
+                                <span class="itl-badge" id="itlBadge">ORIGIN</span>
+                                <h3 class="itl-title" id="itlTitle">The Sus Founded</h3>
+                            </div>
+                            <div class="itl-right">
+                                <p class="itl-desc" id="itlDesc">Faiz4224, ItzDynozz &amp; Imii Kun form the original squad in Skyxion. Three founders, one shared vision. EhekSquad joined during this era, though their exact status as citizens, allies, or residents was never formally defined — The Sus had no governance structure yet.</p>
+                            </div>
+                        </div>
+                        <div class="itl-ghost" id="itlGhost">01</div>
+                    </div>
+                    <div class="itl-nav">
+                        <button class="itl-btn" id="itlPrev" disabled>← PREV ERA</button>
+                        <span class="itl-counter" id="itlCounter">01 / 06</span>
+                        <button class="itl-btn" id="itlNext">NEXT ERA →</button>
+                    </div>
+                    <p class="itl-hint">USE ← → ARROW KEYS OR SWIPE TO NAVIGATE</p>
                 </div>
-                <div class="itl-nav">
-                    <button class="itl-btn" id="itlPrev" disabled>← PREV ERA</button>
-                    <span class="itl-counter" id="itlCounter">01 / 06</span>
-                    <button class="itl-btn" id="itlNext">NEXT ERA →</button>
+                <div class="history-cta reveal">
+                    <a href="/main/about/" class="btn-secondary" style="display:inline-flex;">READ FULL HISTORY →</a>
                 </div>
-                <p class="itl-hint">USE ← → ARROW KEYS OR SWIPE TO NAVIGATE</p>
             </div>
-            <div class="history-cta reveal">
-                <a href="/main/about/" class="btn-secondary" style="display:inline-flex;">READ FULL HISTORY →</a>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FOUNDERS -->
-    <section class="founders-section" id="founders">
-        <div class="founders-inner">
-            <div class="founders-header reveal">
-                <h2>The Three<br><em>Founders.</em></h2>
-                <p>The Legend of Legiona was built by three people who turned a simple squad into a sovereign nation. Their names are inscribed in the Proclamation of Sovereignty — the founding document of The LoL. Their legacy lives on in every block, every railway track, and every citizen of The Legend of Legiona.</p>
+        <!-- FOUNDERS -->
+        <section class="founders-section" id="founders">
+            <div class="founders-inner">
+                <div class="founders-header reveal">
+                    <h2>The Three<br><em>Founders.</em></h2>
+                    <p>The Legend of Legiona was built by three people who turned a simple squad into a sovereign nation. Their names are inscribed in the Proclamation of Sovereignty — the founding document of The LoL. Their legacy lives on in every block, every railway track, and every citizen of The Legend of Legiona.</p>
+                </div>
+                <div class="founders-grid reveal">
+                    <div class="founder-card tilt-card"><span class="founder-ghost">01</span><div class="founder-init">F</div><h3>Faiz4224</h3><div class="founder-role">FIRST PRESIDENT // FOUNDING LEADER</div><p>Whose unwavering resolve and ingenuity laid the foundation of this great nation. Led The LoL through its golden era and rebuilt it stronger after the political crisis of 2023.</p></div>
+                    <div class="founder-card tilt-card"><span class="founder-ghost">02</span><div class="founder-init">I</div><h3>Imii Kun</h3><div class="founder-role">CO-FOUNDER // VISIONARY</div><p>The visionary who proposed renaming the nation to "The Legend of Legiona." A pillar of strength whose dedication forged the bonds of unity that sustain Legiona to this day.</p></div>
+                    <div class="founder-card tilt-card"><span class="founder-ghost">03</span><div class="founder-init">D</div><h3>Dyno</h3><div class="founder-role">CO-FOUNDER // STRATEGIST</div><p>Whose wisdom and determination illuminated the path toward the nation's glorious future from its earliest days as The Sus. A strategist at heart.</p></div>
+                </div>
             </div>
-            <div class="founders-grid reveal">
-                <div class="founder-card tilt-card"><span class="founder-ghost">01</span><div class="founder-init">F</div><h3>Faiz4224</h3><div class="founder-role">FIRST PRESIDENT // FOUNDING LEADER</div><p>Whose unwavering resolve and ingenuity laid the foundation of this great nation. Led The LoL through its golden era and rebuilt it stronger after the political crisis of 2023.</p></div>
-                <div class="founder-card tilt-card"><span class="founder-ghost">02</span><div class="founder-init">I</div><h3>Imii Kun</h3><div class="founder-role">CO-FOUNDER // VISIONARY</div><p>The visionary who proposed renaming the nation to "The Legend of Legiona." A pillar of strength whose dedication forged the bonds of unity that sustain Legiona to this day.</p></div>
-                <div class="founder-card tilt-card"><span class="founder-ghost">03</span><div class="founder-init">D</div><h3>Dyno</h3><div class="founder-role">CO-FOUNDER // STRATEGIST</div><p>Whose wisdom and determination illuminated the path toward the nation's glorious future from its earliest days as The Sus. A strategist at heart.</p></div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTACT -->
-    <section class="contact-section" id="contact">
-        <div class="contact-inner">
-            <div class="section-eyebrow" style="justify-content:center;">JOIN THE COMMUNITY</div>
-            <h2>Get involved<br>with <em>The LoL.</em></h2>
-            <p>Join the Discord server to connect with the community, apply for citizenship, or support the continued development of The Legend of Legiona.</p>
-            <div class="contact-btns">
-                <a href="https://discord.gg/TB4T8qwN4R" class="btn-primary" target="_blank" rel="noopener">JOIN DISCORD</a>
+        <!-- CONTACT -->
+        <section class="contact-section" id="contact">
+            <div class="contact-inner">
+                <div class="section-eyebrow" style="justify-content:center;">JOIN THE COMMUNITY</div>
+                <h2>Get involved<br>with <em>The LoL.</em></h2>
+                <p>Join the Discord server to connect with the community, apply for citizenship, or support the continued development of The Legend of Legiona.</p>
+                <div class="contact-btns">
+                    <a href="https://discord.gg/TB4T8qwN4R" class="btn-primary" target="_blank" rel="noopener">JOIN DISCORD</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- FOOTER -->
     <footer>
@@ -259,17 +267,16 @@
             <div>
                 <div class="f-logo">The <em>LoL</em></div>
                 <p class="f-desc">The Legend of Legiona. A sovereign nation in Skyxion built on unity, freedom, innovation, and honour since 2021.</p>
-                <a href="https://faizzzlol.github.io/paizcorp/" class="f-network-badge"><div><div class="fbn-label">MADE WITH LOVE BY</div><div class="fbn-name">PAIZ® CORP</div></div></a>
+                <a href="https://faizzzlol.github.io/paizcorp/" class="f-network-badge" rel="noopener"><div><div class="fbn-label">MADE WITH LOVE BY</div><div class="fbn-name">PAIZ® CORP</div></div></a>
             </div>
             <div class="f-col"><h5>NATION</h5><a href="#about">About The LoL</a><a href="#history">History</a><a href="#founders">Founders</a><a href="/main/about/">Full Timeline</a><a href="/gallery/">Gallery</a></div>
             <div class="f-col">
                 <h5>PORTALS</h5>
                 <a href="/gov/">Government</a>
                 <a href="/isc/">ISC</a>
-                <!-- FIX #4: Was "/thelol/tlr/" — wrong prefix -->
+                <!-- FIX #4, #5: corrected links -->
                 <a href="/tlrailways/">TL Railways</a>
                 <a href="/gov/systems/archives/">Legal Archive</a>
-                <!-- FIX #5: Was "/thelol/download-tlolpack" — wrong prefix -->
                 <a href="/main/pack/">Resource Pack</a>
             </div>
             <div class="f-col">
@@ -277,12 +284,12 @@
                 <a href="/gov/systems/archives/">Gov Archive</a>
                 <a href="/isc/national/">ISC Archive</a>
             </div>
-            <div class="f-col network"><h5>NETWORK</h5><a href="https://faizzzlol.github.io/paizcorp/">Paiz® Corp</a><a href="https://faizzzlol.github.io/paizcorp/paizshop/">Paiz Shop</a><a href="https://faizzzlol.github.io/paizcorp/paizchicken/">Paiz Chicken</a><a href="https://faizzzlol.github.io/paizcorp/paizproductions/">PaizProductions</a><a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie">The LoL Movie</a></div>
+            <div class="f-col network"><h5>NETWORK</h5><a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">Paiz® Corp</a><a href="https://faizzzlol.github.io/paizcorp/paizshop/" rel="noopener">Paiz Shop</a><a href="https://faizzzlol.github.io/paizcorp/paizchicken/" rel="noopener">Paiz Chicken</a><a href="https://faizzzlol.github.io/paizcorp/paizproductions/" rel="noopener">PaizProductions</a><a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" rel="noopener">The LoL Movie</a></div>
         </div>
         <div class="footer-bottom">
             <div class="footer-bottom-inner">
                 <p>© 2026 THE LEGEND OF LEGIONA — ALL RIGHTS RESERVED</p>
-                <p>MADE WITH LOVE BY <a href="https://faizzzlol.github.io/paizcorp/">PAIZ® CORP</a> NETWORK // SKYXION: ALTAËR ERA</p>
+                <p>MADE WITH LOVE BY <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a> NETWORK // SKYXION: ALTAËR ERA</p>
             </div>
         </div>
         <div class="footer-legal">
@@ -290,7 +297,10 @@
         </div>
     </footer>
 
+    <!-- FIX: Moved the misplaced script to the end of body (valid placement) -->
+    <script type="module" src="/gov/assets/js/stats.js"></script>
     <script src="/main/assets/js/script.js"></script>
-
+    <!-- FIX: Inline event handlers (closeKonami, closeMobile) remain for now;
+         consider migrating to addEventListener in script.js. -->
 </body>
 </html>
