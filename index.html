@@ -4,23 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Legend of Legiona — The LoL</title>
-    <link rel="icon" type="image/png" href="/main/assets/images/logo.png">
-    <!-- FIX: og:image must be absolute URL -->
+    <meta name="description" content="A sovereign nation forged in vision, courage, and camaraderie. Welcome to The LoL.">
+    <link rel="canonical" href="https://thelegendoflegiona.github.io/main/">
+    <meta name="theme-color" content="#C9A84C">
+
+    <!-- Open Graph -->
     <meta property="og:title" content="The Legend of Legiona">
     <meta property="og:description" content="A sovereign nation forged in vision, courage, and camaraderie. Welcome to The LoL.">
     <meta property="og:url" content="https://thelegendoflegiona.github.io/main/">
     <meta property="og:image" content="https://thelegendoflegiona.github.io/main/assets/images/logo.png">
+    <meta property="og:image:width" content="500">
+    <meta property="og:image:height" content="500">
     <meta property="og:type" content="website">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta property="og:site_name" content="The Legend of Legiona">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="The Legend of Legiona">
+    <meta name="twitter:description" content="A sovereign nation forged in vision, courage, and camaraderie. Welcome to The LoL.">
+    <meta name="twitter:image" content="https://thelegendoflegiona.github.io/main/assets/images/logo.png">
+
+    <link rel="icon" type="image/png" href="/main/assets/images/logo.png">
+
+    <!-- Non-blocking font load (performance boost from Gov Portal) -->
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap">
+    </noscript>
+
     <link rel="stylesheet" href="/main/assets/css/style.css">
 </head>
 <body>
 
     <!-- ── INTERACTIVE ELEMENTS ── -->
     <div id="scroll-progress"></div>
-    <!-- FIX: Removed custom cursor (#cur-dot, #cur-ring) for accessibility -->
-    <!-- Original: <div id="cur-dot"></div><div id="cur-ring"></div> -->
-    <!-- To restore, ensure it respects prefers-reduced-motion and never hides native cursor. -->
+    <!-- Custom cursor removed for accessibility -->
 
     <!-- KONAMI OVERLAY -->
     <div id="konami-overlay">
@@ -37,7 +58,6 @@
     <nav class="netbar" id="netbar" aria-label="Network">
         <div class="netbar-inner">
             <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a>
-            <!-- FIX: replaced href="#" with #home, added aria-current -->
             <a href="#home" class="nb-active" aria-current="page">THE LOL</a>
             <a href="/gov/">GOVERNMENT</a>
             <a href="/isc/">ISC</a>
@@ -47,7 +67,6 @@
 
     <!-- SITE NAV -->
     <header class="sitenav" id="sitenav">
-        <!-- FIX: replaced href="#" with #home -->
         <a href="#home" class="sitenav-logo">
             <img src="/main/assets/images/logo.png" alt="The LoL" onerror="this.style.display='none'">
             <span>THE LOL</span>
@@ -79,7 +98,7 @@
         <a href="/main/about/" onclick="closeMobile()">FULL HISTORY</a>
     </nav>
 
-    <!-- FIX: Added <main> landmark to wrap all primary content -->
+    <!-- MAIN CONTENT LANDMARK (accessibility fix) -->
     <main>
         <!-- HERO -->
         <section class="hero" id="home">
@@ -139,7 +158,6 @@
                 </div>
                 <div class="hub-sublabel gold reveal">PAIZ® CORP — FULL NETWORK</div>
                 <div class="hub-grid reveal">
-                    <!-- FIX: added rel="noopener" to all external links -->
                     <a href="https://faizzzlol.github.io/paizcorp/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">HUB // PARENT COMPANY</span><span class="hm-name">Paiz® Corp</span><p class="hm-desc">The conglomerate homepage. Explore all subsidiaries, services, and projects under one roof.</p><span class="hm-arrow">VISIT HUB →</span></a>
                     <a href="https://faizzzlol.github.io/paizcorp/paizshop/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">STOREFRONT // CORP</span><span class="hm-name">Paiz Shop</span><p class="hm-desc">Official in-game item shop. Browse and order resources in-world. Priced in diamonds.</p><span class="hm-arrow">SHOP NOW →</span></a>
                     <a href="https://faizzzlol.github.io/paizcorp/paizchicken/" class="hub-mini tilt-card" rel="noopener"><span class="hm-tag">FOOD &amp; BEVERAGE // CORP</span><span class="hm-name">Paiz Chicken</span><p class="hm-desc">Online food ordering across Skyxion. Fast, hot, and priced in diamonds.</p><span class="hm-arrow">ORDER NOW →</span></a>
@@ -149,7 +167,6 @@
                 <div class="hub-sublabel reveal">COMMUNITY &amp; RESOURCES</div>
                 <div class="hub-grid-3 reveal">
                     <a href="https://discord.gg/TB4T8qwN4R" target="_blank" rel="noopener" class="hub-mini community-accent tilt-card"><span class="hm-tag">COMMUNITY // DISCORD</span><span class="hm-name">The LoL Discord</span><p class="hm-desc">The official server. Connect, apply for citizenship, and follow announcements.</p><span class="hm-arrow">JOIN SERVER →</span></a>
-                    <!-- FIX #1 corrected: /main/pack/ -->
                     <a href="/main/pack/" class="hub-mini community-accent tilt-card"><span class="hm-tag">RESOURCES // THE LOL</span><span class="hm-name">The LoL Pack</span><p class="hm-desc">Official Minecraft resource pack for the best in-server visual experience.</p><span class="hm-arrow">DOWNLOAD →</span></a>
                 </div>
             </div>
@@ -174,7 +191,6 @@
                     <p>The Legend of Legiona, known as <strong>The LoL</strong>, is a sovereign nation within the Skyxion world. Originally founded as a small squad called <strong>"The Sus"</strong> by Faiz4224, ItzDynozz, and Imii Kun, the nation rapidly grew into the most modern and wealthiest in all of Skyxion.</p>
                     <p>Through democratic elections, political conflict, a presidential crisis, and full recovery — The LoL has proven that unity and perseverance can overcome anything.</p>
                     <p><em>"In the Name of Unity, Legacy, and Glory." — Proclamation of Sovereignty</em></p>
-                    <!-- FIX #2 corrected: /main/about/ -->
                     <a href="/main/about/" class="about-link">READ THE FULL HISTORY →</a>
                 </div>
                 <div class="pillars reveal">
@@ -197,7 +213,6 @@
                     <div class="itl-track-area">
                         <div class="itl-track"><div class="itl-fill" id="itlFill"></div></div>
                         <div class="itl-nodes">
-                            <!-- FIX #3: corrected founding date to 2021 EARLY -->
                             <button class="itl-node active" data-era="0" aria-label="The Sus Founded"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2021 EARLY</span><span class="itl-lname">The Sus</span></div></button>
                             <button class="itl-node" data-era="1" aria-label="Renamed and Reborn"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">2023</span><span class="itl-lname">Reborn</span></div></button>
                             <button class="itl-node" data-era="2" aria-label="First Presidential Election"><div class="itl-dot"></div><div class="itl-label"><span class="itl-ldate">MAY 6, 2023</span><span class="itl-lname">Election</span></div></button>
@@ -207,7 +222,6 @@
                         </div>
                     </div>
                     <div class="itl-panel" id="itlPanel">
-                        <!-- FIX: added aria-live region for dynamic content -->
                         <div class="itl-content" id="itlContent" aria-live="polite" aria-atomic="true">
                             <div class="itl-left">
                                 <span class="itl-era-date" id="itlDate">2021 // EARLY</span>
@@ -274,7 +288,6 @@
                 <h5>PORTALS</h5>
                 <a href="/gov/">Government</a>
                 <a href="/isc/">ISC</a>
-                <!-- FIX #4, #5: corrected links -->
                 <a href="/tlrailways/">TL Railways</a>
                 <a href="/gov/systems/archives/">Legal Archive</a>
                 <a href="/main/pack/">Resource Pack</a>
@@ -284,7 +297,14 @@
                 <a href="/gov/systems/archives/">Gov Archive</a>
                 <a href="/isc/national/">ISC Archive</a>
             </div>
-            <div class="f-col network"><h5>NETWORK</h5><a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">Paiz® Corp</a><a href="https://faizzzlol.github.io/paizcorp/paizshop/" rel="noopener">Paiz Shop</a><a href="https://faizzzlol.github.io/paizcorp/paizchicken/" rel="noopener">Paiz Chicken</a><a href="https://faizzzlol.github.io/paizcorp/paizproductions/" rel="noopener">PaizProductions</a><a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" rel="noopener">The LoL Movie</a></div>
+            <div class="f-col network">
+                <h5>NETWORK</h5>
+                <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">Paiz® Corp</a>
+                <a href="https://faizzzlol.github.io/paizcorp/paizshop/" rel="noopener">Paiz Shop</a>
+                <a href="https://faizzzlol.github.io/paizcorp/paizchicken/" rel="noopener">Paiz Chicken</a>
+                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/" rel="noopener">PaizProductions</a>
+                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" rel="noopener">The LoL Movie</a>
+            </div>
         </div>
         <div class="footer-bottom">
             <div class="footer-bottom-inner">
@@ -297,10 +317,9 @@
         </div>
     </footer>
 
-    <!-- FIX: Moved the misplaced script to the end of body (valid placement) -->
+    <!-- Scripts: placed correctly at end, with defer for non-module script -->
     <script type="module" src="/gov/assets/js/stats.js"></script>
-    <script src="/main/assets/js/script.js"></script>
-    <!-- FIX: Inline event handlers (closeKonami, closeMobile) remain for now;
-         consider migrating to addEventListener in script.js. -->
+    <script src="/main/assets/js/script.js" defer></script>
+    <!-- Future improvement: migrate inline onclick handlers to script.js -->
 </body>
 </html>
