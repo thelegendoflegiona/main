@@ -292,8 +292,11 @@
         .founder-block:hover { background: rgba(52,160,106,0.05); }
         .founder-block::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--emerald); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease; }
         .founder-block:hover::after { transform: scaleX(1); }
-        .fb-init { width: 40px; height: 40px; border: 1px solid rgba(52,160,106,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--emerald); background: rgba(52,160,106,0.05); margin-bottom: 1rem; transition: border-color 0.3s, background 0.3s; }
+        .fb-init { width: 40px; height: 40px; border: 1px solid rgba(52,160,106,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--emerald); background: rgba(52,160,106,0.05); margin-bottom: 1rem; transition: border-color 0.3s, background 0.3s; position: relative; overflow: hidden; }
         .founder-block:hover .fb-init { border-color: rgba(52,160,106,0.6); background: rgba(52,160,106,0.1); }
+        .fb-init img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; opacity: 0; transition: opacity 0.3s; }
+        .fb-init img.loaded { opacity: 1; }
+        .fb-init .init-letter { position: relative; z-index: 1; }
         .fb-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
         .fb-role { font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 2px; color: var(--emerald); opacity: 0.65; }
 
@@ -579,17 +582,17 @@
         <div class="founders-strip reveal">
             <div class="fs-inner">
                 <div class="founder-block">
-                    <div class="fb-init">F</div>
+                    <div class="fb-init" data-java="Faiz4224" data-bedrock="/main/assets/images/founders/faiz4224.png"><span class="init-letter">F</span></div>
                     <div class="fb-name">Faiz4224</div>
                     <div class="fb-role">FIRST PRESIDENT // FOUNDING LEADER</div>
                 </div>
                 <div class="founder-block">
-                    <div class="fb-init">I</div>
+                    <div class="fb-init" data-java="ImiiKun" data-bedrock="/main/assets/images/founders/imiikun.png"><span class="init-letter">I</span></div>
                     <div class="fb-name">Imii Kun</div>
                     <div class="fb-role">CO-FOUNDER // VISIONARY</div>
                 </div>
                 <div class="founder-block">
-                    <div class="fb-init">D</div>
+                    <div class="fb-init" data-java="ItzDynozz" data-bedrock="/main/assets/images/founders/dyno.png"><span class="init-letter">D</span></div>
                     <div class="fb-name">Dyno</div>
                     <div class="fb-role">CO-FOUNDER // STRATEGIST</div>
                 </div>
@@ -842,6 +845,43 @@
 
     // Initial call
     updateChapterTracking();
+
+    // ════════════════════════════════════════════════════════════════
+    //  FOUNDER AVATARS — Java skin API, Bedrock self-hosted fallback
+    // ════════════════════════════════════════════════════════════════
+    (function () {
+        function loadFounderAvatar(el) {
+            const java    = el.dataset.java;
+            const bedrock = el.dataset.bedrock;
+            if (!java && !bedrock) return;
+
+            const img = document.createElement('img');
+            img.alt = '';
+            img.loading = 'lazy';
+            img.onload = () => img.classList.add('loaded');
+
+            function tryBedrock() {
+                if (bedrock) {
+                    img.onerror = () => img.remove();
+                    img.src = bedrock;
+                } else {
+                    img.remove();
+                }
+            }
+
+            if (java) {
+                img.onerror = tryBedrock;
+                img.src = `https://mc-heads.net/avatar/${encodeURIComponent(java)}/96`;
+            } else {
+                tryBedrock();
+            }
+
+            el.appendChild(img);
+        }
+
+        document.querySelectorAll('.fb-init[data-java], .fb-init[data-bedrock]')
+            .forEach(loadFounderAvatar);
+    })();
     </script>
 </body>
 </html>
