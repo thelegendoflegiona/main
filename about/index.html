@@ -582,17 +582,17 @@
         <div class="founders-strip reveal">
             <div class="fs-inner">
                 <div class="founder-block">
-                    <div class="fb-init" data-java="Faiz4224" data-bedrock="/main/assets/images/founders/faiz4224.png"><span class="init-letter">F</span></div>
-                    <div class="fb-name">Faiz4224</div>
+                    <div class="fb-init" data-username="Faiz4224"><span class="init-letter">F</span></div>
+                    <div class="fb-name">Faiz</div>
                     <div class="fb-role">FIRST PRESIDENT // FOUNDING LEADER</div>
                 </div>
                 <div class="founder-block">
-                    <div class="fb-init" data-java="ImiiKun" data-bedrock="/main/assets/images/founders/imiikun.png"><span class="init-letter">I</span></div>
-                    <div class="fb-name">Imii Kun</div>
-                    <div class="fb-role">CO-FOUNDER // VISIONARY</div>
+                    <div class="fb-init" data-username="NOmoreIMII"><span class="init-letter">I</span></div>
+                    <div class="fb-name">Imii</div>
+                    <div class="fb-role">CO-FOUNDER // VISIONARY // BUILDER</div>
                 </div>
                 <div class="founder-block">
-                    <div class="fb-init" data-java="ItzDynozz" data-bedrock="/main/assets/images/founders/dyno.png"><span class="init-letter">D</span></div>
+                    <div class="fb-init" data-username="LonelyDynozz"><span class="init-letter">D</span></div>
                     <div class="fb-name">Dyno</div>
                     <div class="fb-role">CO-FOUNDER // STRATEGIST</div>
                 </div>
@@ -656,7 +656,7 @@
         <div class="footer-bottom">
             <div class="footer-bottom-inner">
                 <p>© 2026 THE LEGEND OF LEGIONA — ALL RIGHTS RESERVED</p>
-                <p>MADE WITH LOVE BY <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a> NETWORK // KAWAIISHO: ALTAËR ERA</p>
+                <p>MADE WITH LOVE BY <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a></p>
             </div>
         </div>
         <div class="footer-legal">
@@ -847,40 +847,24 @@
     updateChapterTracking();
 
     // ════════════════════════════════════════════════════════════════
-    //  FOUNDER AVATARS — Java skin API, Bedrock self-hosted fallback
+    //  FOUNDER AVATARS — TAB avatars API (auto-detects Java or Bedrock)
     // ════════════════════════════════════════════════════════════════
     (function () {
         function loadFounderAvatar(el) {
-            const java    = el.dataset.java;
-            const bedrock = el.dataset.bedrock;
-            if (!java && !bedrock) return;
+            const username = el.dataset.username;
+            if (!username) return;
 
             const img = document.createElement('img');
             img.alt = '';
             img.loading = 'lazy';
             img.onload = () => img.classList.add('loaded');
-
-            function tryBedrock() {
-                if (bedrock) {
-                    img.onerror = () => img.remove();
-                    img.src = bedrock;
-                } else {
-                    img.remove();
-                }
-            }
-
-            if (java) {
-                img.onerror = tryBedrock;
-                img.src = `https://mc-heads.net/avatar/${encodeURIComponent(java)}/96`;
-            } else {
-                tryBedrock();
-            }
+            img.onerror = () => img.remove();
+            img.src = `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=96&type=helm`;
 
             el.appendChild(img);
         }
 
-        document.querySelectorAll('.fb-init[data-java], .fb-init[data-bedrock]')
-            .forEach(loadFounderAvatar);
+        document.querySelectorAll('.fb-init[data-username]').forEach(loadFounderAvatar);
     })();
     </script>
 </body>
