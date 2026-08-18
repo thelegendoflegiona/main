@@ -1,4 +1,4 @@
-        :root {
+:root {
             --green:        #1d5c3c;
             --green-dark:   #0f2e1e;
             --green-light:  #2d7a52;
@@ -504,8 +504,11 @@
         .founder-card:hover { background: var(--charcoal3); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
         .founder-ghost { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(52,160,106,0.12); position: absolute; top: 1.5rem; right: 1.5rem; line-height: 1; transition: -webkit-text-stroke-color 0.3s; }
         .founder-card:hover .founder-ghost { -webkit-text-stroke-color: rgba(52,160,106,0.22); }
-        .founder-init { width: 48px; height: 48px; border: 1px solid rgba(52,160,106,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--emerald); background: rgba(52,160,106,0.05); margin-bottom: 1.4rem; transition: border-color 0.3s, background 0.3s; }
+        .founder-init { width: 48px; height: 48px; border: 1px solid rgba(52,160,106,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--emerald); background: rgba(52,160,106,0.05); margin-bottom: 1.4rem; transition: border-color 0.3s, background 0.3s; position: relative; overflow: hidden; }
         .founder-card:hover .founder-init { border-color: rgba(52,160,106,0.6); background: rgba(52,160,106,0.1); }
+        .founder-init img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; opacity: 0; transition: opacity 0.3s; }
+        .founder-init img.loaded { opacity: 1; }
+        .founder-init .init-letter { position: relative; z-index: 1; }
         .founder-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 0.35rem; }
         .founder-role { font-family: 'DM Mono', monospace; font-size: 0.53rem; letter-spacing: 2px; color: var(--emerald); opacity: 0.7; margin-bottom: 1rem; }
         .founder-card p { font-size: 0.85rem; color: rgba(255,255,255,0.36); line-height: 1.75; font-weight: 300; }
