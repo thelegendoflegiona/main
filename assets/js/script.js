@@ -178,7 +178,7 @@
     // ════════════════════════════════════════════════════════════════
     // Typewriter on hero eyebrow
     const eyebrow = document.getElementById('heroEyebrow');
-    const eyebrowText = 'THE SUS // EST. 2021 // SOVEREIGN NATION // SKYXION: ALTAËR ERA';
+    const eyebrowText = 'THE SUS // EST. 2021 // SOVEREIGN NATION // KAWAIISHO: ALTAËR ERA';
     let twIndex = 0;
 
     function typeWriter() {
@@ -303,12 +303,13 @@
     // ════════════════════════════════════════════════════════════════
     (function () {
         const ERAS = [
-            { date:"2021 // EARLY", badge:"ORIGIN", badgeClass:"", title:"The Sus Founded", desc:"Faiz4224, ItzDynozz & Imii Kun form the original squad in Skyxion. Three founders, one shared vision. EhekSquad joined during this era, though their exact status as citizens, allies, or residents was never formally defined — The Sus had no governance structure yet.", accent:"" },
-            { date:"FEB 22, 2023", badge:"GOLDEN ERA", badgeClass:"", title:"Renamed & Reborn", desc:"Renamed \"The Legend of Legiona.\" The nation rapidly becomes the most modern and wealthiest in all of Skyxion. Under President Faiz4224, The LoL thrives in economy, infrastructure, and innovation.", accent:"" },
+            { date:"2021 // EARLY", badge:"ORIGIN", badgeClass:"", title:"The Sus Founded", desc:"Faiz4224, ItzDynozz & Imii Kun form the original squad in Kawaiisho. Three founders, one shared vision. EhekSquad joined during this era, though their exact status as citizens, allies, or residents was never formally defined — The Sus had no governance structure yet.", accent:"" },
+            { date:"FEB 22, 2023", badge:"GOLDEN ERA", badgeClass:"", title:"Renamed & Reborn", desc:"Renamed \"The Legend of Legiona.\" The nation rapidly becomes the most modern and wealthiest in all of Kawaiisho. Under President Faiz4224, The LoL thrives in economy, infrastructure, and innovation.", accent:"" },
             { date:"MAY 6, 2023", badge:"DEMOCRACY", badgeClass:"", title:"First Presidential Election", desc:"The LoL holds its first democratic election. UltraX2020 and the Parti Harapan Rakyat The LoL (PHRTL) win, becoming the 2nd President — a significant milestone and turning point in national governance.", accent:"" },
             { date:"2023 // CRISIS", badge:"CONFLICT", badgeClass:"badge-chaos", title:"Chaos & Conflict", desc:"Internal strife erupts under UltraX2020. The LoL City sign is bombed. TLCC is attacked by drones. Political chaos grips the nation — the darkest and most turbulent chapter in the history of The LoL.", accent:"accent-chaos" },
             { date:"NOV 8, 2023", badge:"REBIRTH", badgeClass:"", title:"Resistance & Recovery", desc:"UltraX2020 resigns. Faiz4224 resumes leadership. Infrastructure projects launch, security is reinforced. The intelligence body TLIO — predecessor to ISC — is established to defend The LoL from future threats.", accent:"" },
-            { date:"2025–2026", badge:"CURRENT ERA", badgeClass:"badge-current", title:"The Modern Era", desc:"TLIO is reborn as the Internal Security Control (ISC) on 2 March 2026. The Skyxion: Altaër era begins. The LoL stands today as a symbol of perseverance and innovation. The greatest chapter is still being written.", accent:"accent-gold" }
+            { date:"2025–2026", badge:"REBUILDING", badgeClass:"", title:"The Modern Era", desc:"TLIO is reborn as the Internal Security Control (ISC) on 2 March 2026. The LoL continues to operate with full sovereignty, the Landen Accord, and an active egalitarian governance model.", accent:"" },
+            { date:"2026–PRESENT", badge:"CURRENT ERA", badgeClass:"badge-current", title:"The Kawaiisho Era", desc:"The server The LoL calls home rebrands to Kawaiisho, hosted at kawaiisho.com — formerly Skyxion, and before that Neverland. The nation carries on unchanged; only the world around it has a new name. The greatest chapter is still being written.", accent:"accent-gold" }
         ];
 
         let current = 0, transitioning = false;
