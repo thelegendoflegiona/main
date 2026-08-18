@@ -178,7 +178,7 @@
     // ════════════════════════════════════════════════════════════════
     // Typewriter on hero eyebrow
     const eyebrow = document.getElementById('heroEyebrow');
-    const eyebrowText = 'THE SUS // EST. 2021 // SOVEREIGN NATION // KAWAIISHO: ALTAËR ERA';
+    const eyebrowText = 'THE SUS // EST. 2021 // SOVEREIGN NATION // KAWAIISHO ERA';
     let twIndex = 0;
 
     function typeWriter() {
@@ -370,42 +370,27 @@
     })();
 
 // ════════════════════════════════════════════════════════════════
-//  FOUNDER AVATARS — Java skin API, Bedrock self-hosted fallback
+//  FOUNDER AVATARS — TAB avatars API (auto-detects Java or Bedrock)
 // ════════════════════════════════════════════════════════════════
 (function () {
-    // Preference: Java Edition avatar (live, via mc-heads.net) first;
-    // if that Java username doesn't resolve, fall back to a self-hosted
-    // Bedrock skin render. If neither is set/loads, the initial letter
-    // underneath stays visible.
+    // No platform param = API checks Java first, then Bedrock, then
+    // falls back to a default Steve skin. Always returns a valid PNG,
+    // so the only client-side fallback needed is for a true network
+    // failure — in which case the initial letter underneath stays visible.
     function loadFounderAvatar(el) {
-        const java    = el.dataset.java;
-        const bedrock = el.dataset.bedrock;
-        if (!java && !bedrock) return;
+        const username = el.dataset.username;
+        if (!username) return;
 
         const img = document.createElement('img');
         img.alt = '';
         img.loading = 'lazy';
         img.onload = () => img.classList.add('loaded');
-
-        function tryBedrock() {
-            if (bedrock) {
-                img.onerror = () => img.remove();
-                img.src = bedrock;
-            } else {
-                img.remove();
-            }
-        }
-
-        if (java) {
-            img.onerror = tryBedrock;
-            img.src = `https://mc-heads.net/avatar/${encodeURIComponent(java)}/96`;
-        } else {
-            tryBedrock();
-        }
+        img.onerror = () => img.remove();
+        img.src = `https://tabavatars.net/avatar/?username=${encodeURIComponent(username)}&size=96&type=helm`;
 
         el.appendChild(img);
     }
 
-    document.querySelectorAll('.fb-init[data-java], .fb-init[data-bedrock], .founder-init[data-java], .founder-init[data-bedrock]')
+    document.querySelectorAll('.fb-init[data-username], .founder-init[data-username]')
         .forEach(loadFounderAvatar);
 })();
