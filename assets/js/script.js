@@ -368,3 +368,44 @@
         panel.addEventListener('touchend',   (e) => { const d = tStartX - e.changedTouches[0].clientX; if (Math.abs(d) > 48) goTo(d > 0 ? current+1 : current-1); }, { passive:true });
         updateFill(0); prevBtn.disabled = true;
     })();
+
+// ════════════════════════════════════════════════════════════════
+//  FOUNDER AVATARS — Java skin API, Bedrock self-hosted fallback
+// ════════════════════════════════════════════════════════════════
+(function () {
+    // Preference: Java Edition avatar (live, via mc-heads.net) first;
+    // if that Java username doesn't resolve, fall back to a self-hosted
+    // Bedrock skin render. If neither is set/loads, the initial letter
+    // underneath stays visible.
+    function loadFounderAvatar(el) {
+        const java    = el.dataset.java;
+        const bedrock = el.dataset.bedrock;
+        if (!java && !bedrock) return;
+
+        const img = document.createElement('img');
+        img.alt = '';
+        img.loading = 'lazy';
+        img.onload = () => img.classList.add('loaded');
+
+        function tryBedrock() {
+            if (bedrock) {
+                img.onerror = () => img.remove();
+                img.src = bedrock;
+            } else {
+                img.remove();
+            }
+        }
+
+        if (java) {
+            img.onerror = tryBedrock;
+            img.src = `https://mc-heads.net/avatar/${encodeURIComponent(java)}/96`;
+        } else {
+            tryBedrock();
+        }
+
+        el.appendChild(img);
+    }
+
+    document.querySelectorAll('.fb-init[data-java], .fb-init[data-bedrock], .founder-init[data-java], .founder-init[data-bedrock]')
+        .forEach(loadFounderAvatar);
+})();
