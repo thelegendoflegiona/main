@@ -17,14 +17,23 @@
     //  NAV
     // ════════════════════════════════════════════════════════════════
     const sitenav = document.getElementById('sitenav');
-    const netbar  = document.getElementById('netbar');
+    // netbar loads asynchronously from assets/partials/netbar.html via
+    // partials.js, so it may not exist in the DOM yet when this runs —
+    // look it up live and re-grab it once the partial has actually loaded.
+    let netbar = document.getElementById('netbar');
+    document.addEventListener('partials:loaded', () => {
+        netbar = document.getElementById('netbar');
+    });
     const NETBAR_H = 32;
 
     window.addEventListener('scroll', () => {
         const y = window.scrollY;
         sitenav.classList.toggle('scrolled', y > 60);
-        if (y > NETBAR_H) { netbar.classList.add('hidden'); sitenav.classList.add('nb-hidden'); }
-        else { netbar.classList.remove('hidden'); sitenav.classList.remove('nb-hidden'); }
+        if (netbar) {
+            if (y > NETBAR_H) netbar.classList.add('hidden');
+            else netbar.classList.remove('hidden');
+        }
+        sitenav.classList.toggle('nb-hidden', y > NETBAR_H);
         updateProgress();
     }, { passive: true });
 
@@ -275,6 +284,7 @@
     ];
 
     document.addEventListener('keydown', (e) => {
+        if (!konamiOverlay || !konamiLog) return; // page has no konami-overlay markup
         kSeq.push(e.keyCode);
         if (kSeq.length > KONAMI.length) kSeq.shift();
         if (kSeq.join(',') === KONAMI.join(',')) {
@@ -292,11 +302,13 @@
     });
 
     function closeKonami() {
-        konamiOverlay.classList.remove('active');
+        if (konamiOverlay) konamiOverlay.classList.remove('active');
     }
-    konamiOverlay.addEventListener('click', (e) => {
-        if (e.target === konamiOverlay) closeKonami();
-    });
+    if (konamiOverlay) {
+        konamiOverlay.addEventListener('click', (e) => {
+            if (e.target === konamiOverlay) closeKonami();
+        });
+    }
 
     // ════════════════════════════════════════════════════════════════
     //  INTERACTIVE TIMELINE
