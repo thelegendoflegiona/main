@@ -396,16 +396,8 @@
         </div>
     </div>
 
-    <!-- NETWORK BAR (unified) -->
-    <nav class="netbar" id="netbar" aria-label="Network">
-        <div class="netbar-inner">
-            <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a>
-            <a href="/main/" class="nb-active">THE LOL</a>
-            <a href="/gov/">GOVERNMENT</a>
-            <a href="/isc/">ISC</a>
-            <a href="/tlrailways/">TL RAILWAYS</a>
-        </div>
-    </nav>
+    <!-- NETWORK BAR (loaded from assets/partials/netbar.html — see partials.js) -->
+    <div id="netbar-placeholder"></div>
 
     <!-- SITE NAV -->
     <header class="sitenav" id="sitenav">
@@ -610,59 +602,8 @@
         </div>
     </main>
 
-    <!-- FOOTER (unified with main site) -->
-    <footer>
-        <div class="footer-main">
-            <div>
-                <div class="f-logo">The <em>LoL</em></div>
-                <p class="f-desc">The Legend of Legiona. A sovereign nation in Kawaiisho built on unity, freedom, innovation, and honour since 2021.</p>
-                <a href="https://faizzzlol.github.io/paizcorp/" class="f-network-badge" rel="noopener">
-                    <div>
-                        <div class="fbn-label">MADE WITH LOVE BY</div>
-                        <div class="fbn-name">PAIZ® CORP</div>
-                    </div>
-                </a>
-            </div>
-            <div class="f-col">
-                <h5>NATION</h5>
-                <a href="/main/#about">About The LoL</a>
-                <a href="/main/#history">History</a>
-                <a href="/main/#founders">Founders</a>
-                <a href="/main/about/">Full Timeline</a>
-                <a href="/gallery/">Gallery</a>
-            </div>
-            <div class="f-col">
-                <h5>PORTALS</h5>
-                <a href="/gov/">Government</a>
-                <a href="/isc/">ISC</a>
-                <a href="/tlrailways/">TL Railways</a>
-                <a href="/gov/systems/archives/">Legal Archive</a>
-                <a href="/main/pack/">Resource Pack</a>
-            </div>
-            <div class="f-col">
-                <h5>DOCUMENTS</h5>
-                <a href="/gov/systems/archives/">Gov Archive</a>
-                <a href="/isc/national/">ISC Archive</a>
-            </div>
-            <div class="f-col network">
-                <h5>NETWORK</h5>
-                <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">Paiz® Corp</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizshop/" rel="noopener">Paiz Shop</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizchicken/" rel="noopener">Paiz Chicken</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/" rel="noopener">PaizProductions</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" rel="noopener">The LoL Movie</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-inner">
-                <p>© 2026 THE LEGEND OF LEGIONA — ALL RIGHTS RESERVED</p>
-                <p>MADE WITH LOVE BY <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a></p>
-            </div>
-        </div>
-        <div class="footer-legal">
-            <p>LEGAL DISCLAIMER — The Legend of Legiona (The LoL) is an independent community nation project operating on the Kawaiisho Minecraft server. The era designation "Altaër" is an internal project term and is not an official Kawaiisho designation. This project is NOT AN OFFICIAL MINECRAFT PRODUCT. Not approved by or associated with Mojang AB or Microsoft Corporation.</p>
-        </div>
-    </footer>
+    <!-- Footer (loaded from assets/partials/footer.html — see partials.js) -->
+    <div id="footer-placeholder"></div>
 
     <!-- Scripts: placed correctly at end of body -->
     <script type="module" src="/gov/assets/js/stats.js"></script>
@@ -671,7 +612,13 @@
     //  NAV
     // ════════════════════════════════════════════════════════════════
     const sitenav = document.getElementById('sitenav');
-    const netbar  = document.getElementById('netbar');
+    // netbar now loads asynchronously via partials.js, so it may not exist
+    // in the DOM yet at parse time — look it up live and re-grab it once
+    // the partial has actually loaded in.
+    let netbar = document.getElementById('netbar');
+    document.addEventListener('partials:loaded', () => {
+        netbar = document.getElementById('netbar');
+    });
     const NETBAR_H = 32;
 
     const hamburger  = document.getElementById('hamburger');
@@ -725,8 +672,11 @@
 
         // Nav hide/show
         sitenav.classList.toggle('scrolled', y > 60);
-        if (y > NETBAR_H) { netbar.classList.add('hidden'); sitenav.classList.add('nb-hidden'); }
-        else { netbar.classList.remove('hidden'); sitenav.classList.remove('nb-hidden'); }
+        if (netbar) {
+            if (y > NETBAR_H) netbar.classList.add('hidden');
+            else netbar.classList.remove('hidden');
+        }
+        sitenav.classList.toggle('nb-hidden', y > NETBAR_H);
 
         // Chapter indicator visibility
         const headerH = document.querySelector('.page-header').offsetHeight;
@@ -867,5 +817,6 @@
         document.querySelectorAll('.fb-init[data-username]').forEach(loadFounderAvatar);
     })();
     </script>
+    <script src="/main/assets/js/partials.js"></script>
 </body>
 </html>
