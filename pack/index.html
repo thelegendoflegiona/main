@@ -587,16 +587,19 @@
 </head>
 <body>
 
-    <!-- NETWORK BAR (uniform with main site) -->
-    <nav class="netbar" id="netbar" aria-label="Network">
-        <div class="netbar-inner">
-            <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a>
-            <a href="/main/" class="nb-active">THE LOL</a>
-            <a href="/gov/">GOVERNMENT</a>
-            <a href="/isc/">ISC</a>
-            <a href="/tlrailways/">TL RAILWAYS</a>
+    <!-- KONAMI OVERLAY (was missing here — script.js expects it on every page) -->
+    <div id="konami-overlay">
+        <div class="konami-inner">
+            <div class="konami-badge">// INTERNAL SECURITY CONTROL — CLASSIFIED ACCESS</div>
+            <div class="konami-title">SIGMA<br><em>Clearance Granted.</em></div>
+            <div class="konami-sub">AUTHORIZATION LEVEL: MAXIMUM // EYES ONLY</div>
+            <div class="konami-log" id="konami-log"></div>
+            <button class="konami-close" onclick="closeKonami()">CLOSE TERMINAL</button>
         </div>
-    </nav>
+    </div>
+
+    <!-- NETWORK BAR (loaded from assets/partials/netbar.html — see partials.js) -->
+    <div id="netbar-placeholder"></div>
 
     <!-- SITE NAV (uniform with main site) -->
     <header class="sitenav" id="sitenav">
@@ -968,46 +971,8 @@
     </main>
 
     <!-- FOOTER (uniform with main site) -->
-    <footer>
-        <div class="footer-main">
-            <div>
-                <div class="f-logo">The <em>LoL</em></div>
-                <p class="f-desc">The Legend of Legiona. A sovereign nation in Kawaiisho built on unity, freedom, innovation, and honour since 2021.</p>
-                <a href="https://faizzzlol.github.io/paizcorp/" class="f-network-badge" rel="noopener"><div><div class="fbn-label">MADE WITH LOVE BY</div><div class="fbn-name">PAIZ® CORP</div></div></a>
-            </div>
-            <div class="f-col"><h5>NATION</h5><a href="/main/#about">About The LoL</a><a href="/main/#history">History</a><a href="/main/#founders">Founders</a><a href="/main/about/">Full Timeline</a><a href="/gallery/">Gallery</a></div>
-            <div class="f-col">
-                <h5>PORTALS</h5>
-                <a href="/gov/">Government</a>
-                <a href="/isc/">ISC</a>
-                <a href="/tlrailways/">TL Railways</a>
-                <a href="/gov/systems/archives/">Legal Archive</a>
-                <a href="/main/pack/">Resource Pack</a>
-            </div>
-            <div class="f-col">
-                <h5>DOCUMENTS</h5>
-                <a href="/gov/systems/archives/">Gov Archive</a>
-                <a href="/isc/national/">ISC Archive</a>
-            </div>
-            <div class="f-col network">
-                <h5>NETWORK</h5>
-                <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">Paiz® Corp</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizshop/" rel="noopener">Paiz Shop</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizchicken/" rel="noopener">Paiz Chicken</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/" rel="noopener">PaizProductions</a>
-                <a href="https://faizzzlol.github.io/paizcorp/paizproductions/thelolmovie" rel="noopener">The LoL Movie</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-inner">
-                <p>© 2026 THE LEGEND OF LEGIONA — ALL RIGHTS RESERVED</p>
-                <p>MADE WITH LOVE BY <a href="https://faizzzlol.github.io/paizcorp/" rel="noopener">PAIZ® CORP</a> NETWORK // SKYXION: ALTAËR ERA</p>
-            </div>
-        </div>
-        <div class="footer-legal">
-            <p>LEGAL DISCLAIMER — The Legend of Legiona (The LoL) is an independent community nation project operating on the Kawaiisho Minecraft server. The era designation "Altaër" is an internal project term and is not an official Kawaiisho designation. This project is NOT AN OFFICIAL MINECRAFT PRODUCT. Not approved by or associated with Mojang AB or Microsoft Corporation.</p>
-        </div>
-    </footer>
+    <!-- Footer (loaded from assets/partials/footer.html — see partials.js) -->
+    <div id="footer-placeholder"></div>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-wrap" id="toastWrap"></div>
@@ -1015,6 +980,7 @@
     <!-- Scripts -->
     <script type="module" src="/gov/assets/js/stats.js"></script>
     <script src="/main/assets/js/script.js" defer></script>
+    <script src="/main/assets/js/partials.js"></script>
     <script>
         /* ── HAMBURGER / MOBILE (using main script's closeMobile if available) ── */
         const hamburger = document.getElementById('hamburger');
