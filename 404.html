@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found — The Legend of Legiona</title>
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#C9A84C">
+    <link rel="icon" type="image/png" href="/main/assets/images/logo.png">
+
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap">
+    </noscript>
+
+    <link rel="stylesheet" href="/main/assets/css/style.css">
+    <style>
+        .nf-wrap {
+            min-height: 100svh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 5% 5% calc(var(--netbar-h) + 40px);
+        }
+        .nf-code {
+            font-family: 'DM Mono', monospace; letter-spacing: 6px; font-size: 0.7rem;
+            color: var(--emerald); opacity: 0.7; margin-bottom: 18px;
+        }
+        .nf-title {
+            font-family: 'Playfair Display', serif; font-weight: 900;
+            font-size: clamp(2.4rem, 8vw, 4.5rem); line-height: 1.05; margin-bottom: 20px;
+        }
+        .nf-title em { color: var(--gold-light); font-style: italic; }
+        .nf-desc {
+            max-width: 480px; color: rgba(245,242,235,0.65); margin-bottom: 40px; font-size: 0.95rem;
+        }
+        .nf-btn {
+            display: inline-block; padding: 14px 32px; border: 1px solid var(--gold);
+            color: var(--gold-light); text-decoration: none; font-family: 'DM Mono', monospace;
+            font-size: 0.7rem; letter-spacing: 2px; transition: background 0.2s, color 0.2s;
+        }
+        .nf-btn:hover { background: var(--gold-dim); }
+    </style>
+</head>
+<body>
+    <div id="netbar-placeholder"></div>
+
+    <div class="nf-wrap">
+        <div class="nf-code">ERROR 404 // TERRITORY UNCHARTED</div>
+        <h1 class="nf-title">This page doesn't<br>exist in <em>The LoL</em>.</h1>
+        <p class="nf-desc">The page you're looking for has moved, was renamed, or never existed. Head back to the hub to find your way.</p>
+        <a href="/main/" class="nf-btn">RETURN TO THE HUB →</a>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="/main/assets/js/partials.js"></script>
+</body>
+</html>
