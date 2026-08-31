@@ -159,6 +159,7 @@
             color: rgba(255,255,255,0.45); transition: color 0.2s;
         }
         .sitenav-links a:hover { color: var(--emerald); }
+        .sitenav-links a.active:not(.nav-cta) { color: var(--emerald); font-weight: 600; }
         .sitenav-links .nav-cta {
             border: 1px solid rgba(52,160,106,0.35); color: var(--emerald) !important;
             transition: background 0.2s !important;
@@ -194,6 +195,7 @@
         }
         .mobile-menu a:last-child { border-bottom: none; }
         .mobile-menu a:hover { color: var(--emerald); }
+        .mobile-menu a.active { color: var(--emerald); }
 
         /* ═══════════════════════════════════════
            HERO
