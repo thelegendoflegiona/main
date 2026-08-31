@@ -1,0 +1,36 @@
+<!-- CANONICAL SITE NAV — edit ONLY here, loaded on every /main/ page via
+     assets/js/partials.js. Never hand-copy this markup into a page.
+     The "active" state on page-type links (no "#") is applied automatically
+     by partials.js based on the current URL — do not hardcode it here. -->
+<header class="sitenav" id="sitenav">
+    <a href="/main/" class="sitenav-logo">
+        <img src="/main/assets/images/logo.png" alt="The LoL" onerror="this.style.display='none'">
+        <span>THE LOL</span>
+    </a>
+    <nav class="sitenav-links" aria-label="Main">
+        <a href="/main/#about">ABOUT</a>
+        <a href="/main/#history">HISTORY</a>
+        <a href="/main/#network">NETWORK</a>
+        <a href="/main/#visit">VISIT</a>
+        <a href="/main/#founders">FOUNDERS</a>
+        <a href="/main/pack/">PACK</a>
+        <a href="/gov/" class="nav-cta">GOV PORTAL</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile" aria-hidden="true">
+    <a href="/main/#about" onclick="closeMobile()">ABOUT</a>
+    <a href="/main/#history" onclick="closeMobile()">HISTORY</a>
+    <a href="/main/#network" onclick="closeMobile()">NETWORK HUB</a>
+    <a href="/main/#visit" onclick="closeMobile()">VISIT</a>
+    <a href="/main/#founders" onclick="closeMobile()">FOUNDERS</a>
+    <a href="/main/pack/" onclick="closeMobile()">PACK</a>
+    <a href="/main/about/" onclick="closeMobile()">FULL HISTORY</a>
+    <a href="/gov/" onclick="closeMobile()">GOVERNMENT PORTAL</a>
+    <a href="/isc/" onclick="closeMobile()">ISC</a>
+    <a href="/tlrailways/" onclick="closeMobile()">TL RAILWAYS</a>
+    <a href="https://faizzzlol.github.io/paizcorp/" onclick="closeMobile()" rel="noopener">PAIZ® CORP</a>
+</nav>
