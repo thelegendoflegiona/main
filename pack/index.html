@@ -601,41 +601,8 @@
     <!-- NETWORK BAR (loaded from assets/partials/netbar.html — see partials.js) -->
     <div id="netbar-placeholder"></div>
 
-    <!-- SITE NAV (uniform with main site) -->
-    <header class="sitenav" id="sitenav">
-        <a href="/main/" class="sitenav-logo">
-            <img src="/main/assets/images/logo.png" alt="The LoL" onerror="this.style.display='none'">
-            <span>THE LOL</span>
-        </a>
-        <nav class="sitenav-links" aria-label="Main">
-            <a href="/main/">HOME</a>
-            <a href="/main/#about">ABOUT</a>
-            <a href="/main/#history">HISTORY</a>
-            <a href="/main/#network">NETWORK</a>
-            <a href="/main/#founders">FOUNDERS</a>
-            <a href="/gallery/">GALLERY</a>
-            <a href="/main/pack/" aria-current="page" class="active">PACK</a>
-            <a href="/gov/" class="nav-cta">GOV PORTAL</a>
-        </nav>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-    </header>
-
-    <!-- MOBILE MENU (uniform with main site) -->
-    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
-        <a href="/main/" onclick="closeMobile()">HOME</a>
-        <a href="/main/#about" onclick="closeMobile()">ABOUT</a>
-        <a href="/main/#history" onclick="closeMobile()">HISTORY</a>
-        <a href="/main/#network" onclick="closeMobile()">NETWORK HUB</a>
-        <a href="/main/#founders" onclick="closeMobile()">FOUNDERS</a>
-        <a href="/gallery/" onclick="closeMobile()">GALLERY</a>
-        <a href="/main/pack/" onclick="closeMobile()">PACK</a>
-        <a href="/gov/" onclick="closeMobile()">GOVERNMENT PORTAL</a>
-        <a href="/isc/" onclick="closeMobile()">ISC</a>
-        <a href="/tlrailways/" onclick="closeMobile()">TL RAILWAYS</a>
-        <a href="https://faizzzlol.github.io/paizcorp/" onclick="closeMobile()" rel="noopener">PAIZ® CORP</a>
-    </nav>
+    <!-- SITE NAV + MOBILE MENU (loaded from assets/partials/sitenav.html — see partials.js) -->
+    <div id="sitenav-placeholder"></div>
 
     <!-- MAIN CONTENT -->
     <main>
@@ -982,23 +949,8 @@
     <script src="/main/assets/js/script.js" defer></script>
     <script src="/main/assets/js/partials.js"></script>
     <script>
-        /* ── HAMBURGER / MOBILE (using main script's closeMobile if available) ── */
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('open');
-            mobileMenu.classList.toggle('open');
-            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
-                hamburger.classList.remove('open');
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        });
+        /* Hamburger/mobile menu handled by /main/assets/js/script.js
+           (wired up once the sitenav partial loads — see partials:loaded). */
 
         /* ── VERSION SWITCHER ── */
         function switchVersion(version, btn) {
