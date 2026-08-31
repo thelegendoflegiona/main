@@ -16,42 +16,53 @@
     // ════════════════════════════════════════════════════════════════
     //  NAV
     // ════════════════════════════════════════════════════════════════
-    const sitenav = document.getElementById('sitenav');
-    // netbar loads asynchronously from assets/partials/netbar.html via
-    // partials.js, so it may not exist in the DOM yet when this runs —
-    // look it up live and re-grab it once the partial has actually loaded.
-    let netbar = document.getElementById('netbar');
-    document.addEventListener('partials:loaded', () => {
-        netbar = document.getElementById('netbar');
-    });
+    // sitenav/netbar/hamburger/mobileMenu all load asynchronously from
+    // assets/partials/*.html via partials.js, so none of them exist in the
+    // DOM yet when this runs — look them up live and re-grab/wire them up
+    // once the partials have actually loaded.
+    let sitenav    = document.getElementById('sitenav');
+    let netbar     = document.getElementById('netbar');
+    let hamburger  = document.getElementById('hamburger');
+    let mobileMenu = document.getElementById('mobileMenu');
     const NETBAR_H = 32;
+
+    function closeMobile() {
+        if (!mobileMenu || !hamburger) return;
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('partials:loaded', () => {
+        sitenav    = document.getElementById('sitenav');
+        netbar     = document.getElementById('netbar');
+        hamburger  = document.getElementById('hamburger');
+        mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            const open = mobileMenu.classList.toggle('open');
+            hamburger.classList.toggle('open', open);
+            hamburger.setAttribute('aria-expanded', open);
+            document.body.style.overflow = open ? 'hidden' : '';
+        });
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobile();
+        });
+    });
 
     window.addEventListener('scroll', () => {
         const y = window.scrollY;
-        sitenav.classList.toggle('scrolled', y > 60);
+        if (sitenav) {
+            sitenav.classList.toggle('scrolled', y > 60);
+            sitenav.classList.toggle('nb-hidden', y > NETBAR_H);
+        }
         if (netbar) {
             if (y > NETBAR_H) netbar.classList.add('hidden');
             else netbar.classList.remove('hidden');
         }
-        sitenav.classList.toggle('nb-hidden', y > NETBAR_H);
         updateProgress();
     }, { passive: true });
-
-    const hamburger  = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-        const open = mobileMenu.classList.toggle('open');
-        hamburger.classList.toggle('open', open);
-        hamburger.setAttribute('aria-expanded', open);
-    });
-    function closeMobile() {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-    }
-    document.addEventListener('click', (e) => {
-        if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobile();
-    });
 
     // ════════════════════════════════════════════════════════════════
     //  REVEAL OBSERVER
